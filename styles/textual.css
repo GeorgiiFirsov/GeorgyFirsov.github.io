@@ -1,0 +1,39 @@
+/* 
+ * Styles for data that is represented as text
+ */
+ 
+/* Style for headers */
+.header-text {
+	font-family: "Arial";
+	font-size: 30px;
+	color: #20639B;
+}
+ 
+
+/* Footer text's style */
+.footer-text {
+	text-align: right;
+}
+
+
+/* Styles for text fields in columns */
+.col h2 {
+	font-family: "Arial";
+	font-size: 20px;
+	text-align: center;
+	color: #20639B;
+}
+
+.project a:link, a:visited {
+	color: blue;
+	text-decoration: underline;
+}
+
+.project a:hover, a:active {
+	color: #20639B;
+	text-decoration: underline;
+}
+
+.project span {
+	color: #151515;
+}

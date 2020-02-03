@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
     <head>
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -21,18 +22,92 @@
         <link rel="alternate" href="http://georgyfirsov.github.io/en/index.html" hreflang="en" />
         <link rel="alternate" href="http://georgyfirsov.github.io/index.html" hreflang="ru" />
         
+		<!-- Use custom styles -->
+		<link rel="stylesheet" href="./styles/textual.css" />
+		<link rel="stylesheet" href="./styles/graphical.css" />
+		
+		<!-- Title -->
         <title>Georgy Firsov</title>
 
     </head>
+	
     <body>
     
-        <h1>Мои проекты</h1>
-        <br> <a href="https://georgyfirsov.github.io/Interpreter/">Interpreter</a> - интерпретатор собственного языка программирования (начат недавно).
-			<a href="https://github.com/GeorgyFirsov/Interpreter">Ссылка на репозиторий</a>.
-		<br> <a href="https://georgyfirsov.github.io/Decrypt/">Decrypt</a> - моё исследование шифров и классификации зашифрованных слов.
-			<a href="https://github.com/GeorgyFirsov/Decrypt">Ссылка на репозиторий</a>.
-		<br> <a href="https://georgyfirsov.github.io/News/">News</a> - программа (и Flask-сервер) для предсказания курса акций на ближайшие 2-3 дня.
-			<a href="https://github.com/GeorgyFirsov/News">Ссылка на репозиторий</a>.
+		<!-- Bar section -->
+		<div class="header-bar">
+			<p>Georgy Firsov</p>
+		</div>
+		
+		<!-- Projects section -->
+		<div class="projects">
+			<h1 class="header-text">Мои проекты:</h1>
+			
+			<div class="row">
+			
+				<div class="col">
+					<img src="./img/CppLogo.png" alt="Логотип C++" width="140" height="157">
+					<h2>Проекты, написанные на C++</h2>
+					
+					<div class="project">
+						<a href="https://georgyfirsov.github.io/AsyncNotifications/">AsyncNotifications</a>
+						<span>- приложение, реализующее концепцию Клиент-Сервер с подпиской на уведомления.</span>
+					</div>
+					
+					<div class="project">
+						<a href="https://georgyfirsov.github.io/DllHandler/">DllHandler</a>
+						<span>- RAII-обёртка для динамических библиотек Windows. Поддерживается возможность создания класса-обёртки для конкретных библиотек.</span>
+					</div>
+					
+					<div class="project">
+						<a href="https://georgyfirsov.github.io/FastReader/">FastReader</a>
+						<span>- класс, предоставляющий интерфейс для чтения файлов с помощью проецирования файла в память.</span>
+					</div>
+				</div>
+				
+				<div class="col">
+					<img src="./img/PythonLogo.png" alt="Логотип Python" width="157" height="157">
+					<h2>Проекты, написанные на Python</h2>
+					
+					<div class="project">
+						<a href="https://georgyfirsov.github.io/Decrypt/">Decrypt</a>
+						<span>- исследование возможности классификации зашифрованных слов по шифру.</span>
+					</div>
+					
+					<div class="project">
+						<a href="https://georgyfirsov.github.io/News/">News</a>
+						<span> - программа (и Flask-сервер) для предсказания курса акций на ближайшие 2-3 дня.</span>
+					</div>
+					
+					<div class="project">
+						<a href="https://georgyfirsov.github.io/jParser/">jParser</a>
+						<span> - простой парсер формата JSON.</span>
+					</div>
+				</div>
+				
+				<div class="col">
+					<img src="./img/Pending.png" alt="В разработке" width="157" height="157">
+					<h2>Проекты, находящиеся в разработке</h2>
+					
+					<div class="project">
+						<a href="https://georgyfirsov.github.io/MachineLearningModels/">MachineLearningModels</a>
+						<span>- реализация алгоритмов машинного обучения на Python. Находится на стадии реализации.</span>
+					</div>
+					
+					<div class="project">
+						<a href="https://georgyfirsov.github.io/Interpreter/">Interpreter</a>
+						<span> - интерпретатор собственного языка программирования. Находится на стадии проектирования.</span>
+					</div>
+				</div>
+				
+			</div>
+		</div>
         
+		<!-- Footer -->
+		<hr>
+		<footer>
+			<p class="footer-text">© 2019-2020 Фирсов Георгий.</p>
+		</footer>
+		
     </body>
+	
 </html>
