@@ -37,3 +37,8 @@
 .project span {
     color: #151515;
 }
+
+/* Styles for articles headers */
+.article a {
+	font-weight: bold;
+}
