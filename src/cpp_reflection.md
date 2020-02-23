@@ -5,7 +5,7 @@ that allow you to reflect types in compile time, for instance with `reflexpr` ke
 but it is a future of C++ language. In this post I'll show you how to *simulate* it and do some magic
 with POD-structures.
 
-**Note 2:** (motivation). In my company I was spending in the from of one interesting task: to write a function,
+**Note 2:** (motivation). In my company I was standing in the front of one interesting task: to write a function,
 that receives two raw pointers to structs and an id of a structure, that corresponds to a type of structs. The 
 task was to compare two objects and dump the difference into XML. It looks like this:
 ```cpp
