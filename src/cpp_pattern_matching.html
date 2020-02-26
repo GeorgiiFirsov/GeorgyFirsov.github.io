@@ -1,0 +1,243 @@
+<head>
+   <link crossorigin="anonymous" media="all" integrity="sha512-ZUjVod2EvYMDbGqRSyW0rpfgBq3i+gnR/4PfrzLsy5f20oIcRfgFQFVKgi3Ztp917bP1K/kdP5q8+nAlJ3+cFA==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-6548d5a1dd84bd83036c6a914b25b4ae.css">
+   <link crossorigin="anonymous" media="all" integrity="sha512-MDyKkLoFH4URLSBid10ZAluaTFZmFNB1z9P8gQAKfkXORgZCf3t5kmOSxiOYOAdlt0Ok30kH1FEtdolXdyYcJw==" rel="stylesheet" href="https://github.githubassets.com/assets/github-303c8a90ba051f85112d2062775d1902.css">
+</head>
+<body>
+   <div id="readme" class="Box-body readme blob js-code-block-container">
+      <article class="markdown-body entry-content p-3 p-md-6" itemprop="text">
+         <h2>
+            <a id="user-content-pattern-matching-in-c14" class="anchor" aria-hidden="true" href="#pattern-matching-in-c14">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            Pattern matching in C++14
+         </h2>
+         <p><strong>Note 1:</strong> (motivation). Consider the following code:</p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-c"><span class="pl-c">//</span> Declared above:</span>
+<span class="pl-c"><span class="pl-c">//</span> DoWorkImplVector( std::vector&lt;int&gt;&amp; )</span>
+<span class="pl-c"><span class="pl-c">//</span> DoWorkImplMap( std::map&lt;int, int&gt;&amp; )</span>
+
+<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _Type&gt;
+<span class="pl-k">void</span> <span class="pl-en">DoWork</span>( _Type&amp; value )
+{
+    <span class="pl-k">if</span> (std::is_same&lt;_Type, std::vector&lt;<span class="pl-k">int</span>&gt;&gt;) {
+        <span class="pl-c1">DoWorkImplVector</span>( value );
+    }
+    <span class="pl-k">else</span> {
+        <span class="pl-c1">DoWorkImplMap</span>( value );
+    }
+}
+
+<span class="pl-c"><span class="pl-c">//</span> ...</span>
+
+std::vector&lt;<span class="pl-k">int</span>&gt; vect = <span class="pl-c"><span class="pl-c">/*</span> ... <span class="pl-c">*/</span></span>;
+<span class="pl-en">DoWork</span>( vect );</pre>
+         </div>
+         <p>It results into a compilation error, because we can not call <code>DoWorkImplMap</code> with <code>std::vector&lt;int&gt;</code> as a parameter.
+            We can write a simple workaround using tag dispatch technique (remember, it is C++14), but can we do better?
+            The answer is "yes" and I'll explain how to rewrite this code in a beautiful way.
+         </p>
+         <p>But firstly, I need to say, that in C++<strong>17</strong> we can replace <code>if (std::is_same&lt;_Type, std::vector&lt;int&gt;&gt;)</code> with
+            <code>if constexpr (std::is_same&lt;_Type, std::vector&lt;int&gt;&gt;)</code>. And thats it! But I think, there are many necessary applications
+            for pattern matching even in C++17 and newer.
+         </p>
+         <hr>
+         <h3>
+            <a id="user-content-part-1-what-is-pattern-matching" class="anchor" aria-hidden="true" href="#part-1-what-is-pattern-matching">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            Part 1. What is pattern matching?
+         </h3>
+         <p>I think the best way to understand this concept is to look at code sample (Haskell):</p>
+         <div class="highlight highlight-source-haskell">
+            <pre><span class="pl-c1">map</span> _ <span class="pl-c1">[]</span>     <span class="pl-k">=</span> <span class="pl-c1">[]</span>
+<span class="pl-c1">map</span> f (x<span class="pl-k">:</span>xs) <span class="pl-k">=</span> f x <span class="pl-k">:</span> <span class="pl-c1">map</span> f xs</pre>
+         </div>
+         <ul>
+            <li><code>f</code> is a pattern which matches anything at all, and binds the f variable to whatever is matched.</li>
+            <li><code>(x:xs)</code> is a pattern that matches a non-empty list which is formed by something (which gets bound
+               to the x variable) which was cons'd (by the (:) function) onto something else (which gets bound to xs).
+            </li>
+            <li><code>[]</code> is a pattern that matches the empty list. It doesn't bind any variables.</li>
+            <li><code>_</code> is the pattern which matches anything without binding (wildcard, "don't care" pattern).</li>
+         </ul>
+         <p>As shown above there are 4 patterns (2 for each of 2 arguments). By calling a <code>map</code> with specified parameters
+            compiler compares them with corresponding patterns. This is kinda overload resolution in C++.
+         </p>
+         <p>As soon as we know yet what is pattern matching, we can consider using similar way to solve problem mentioned
+            in the beginning of article. It is possible to use, because pattern matching has a lot similar properties
+            with overload resolution, so we can extend it to be able to call not only functions, but also functors,
+            lambdas and other callables in one statement (with compile-time decision which to call). The main advantage
+            is that this resolution is <strong>compile-time</strong>, because this way we don't substitute arguments to wrong functions.
+         </p>
+         <hr>
+         <h3>
+            <a id="user-content-part-2-from-idea-to-implementation" class="anchor" aria-hidden="true" href="#part-2-from-idea-to-implementation">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            Part 2. From idea to implementation
+         </h3>
+         <p>First of all we need a main function, that receives variadic number of arguments (that will be passed to
+            winner-function as parameters) and variadic pack of callable objects. Because one template function
+            cannot receive two variadic type packs we will pass arguments in tuple:
+         </p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _TiedArgs, <span class="pl-k">typename</span>... _Callables&gt;
+<span class="pl-en">decltype</span>(<span class="pl-k">auto</span>) Match( _TiedArgs&amp;&amp; tpl, _Callables&amp;&amp;... callables )
+{
+    <span class="pl-c"><span class="pl-c">//</span> Checks are removed</span>
+    <span class="pl-k">return</span> <span class="pl-c1">_Match_Impl</span>(
+        std::forward&lt;_TiedArgs&gt;( tpl ), std::forward&lt;_Callables&gt;( callables )...
+    );
+}</pre>
+         </div>
+         <p>This implementation is quite simple: firstly we need to check if there is at least one callable (we don't check
+            here if it is actually a callable object, it'll be checked later), here we assume it to be an invocable object.
+            Then we forward all arguments to function, that goes through each callable in pack and matches arguments list
+            with passed tuple using weak comparison (see below). In case of one remaining callable we delegate execution
+            to invoker-function (it will be described below).
+         </p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _TiedArgs, <span class="pl-k">typename</span> _Callable, <span class="pl-k">typename</span>... _Callables&gt; 
+<span class="pl-en">decltype</span>(<span class="pl-k">auto</span>) _Match_Impl( _TiedArgs&amp;&amp; tpl, _Callable&amp;&amp; callable, _Callables&amp;&amp;... callables )
+{
+    <span class="pl-k">using</span> _ExactArgs = utils::ArgsOf&lt;_Callable&gt;;
+    <span class="pl-k">using</span> _MatchCondition = traits::disjunction&lt;
+        traits::is_same_tuple_weak&lt;_ExactArgs::Args,  _TiedArgs&gt;,
+        traits::is_same_tuple_weak&lt;_ExactArgs::LRefs, _TiedArgs&gt;,
+        traits::is_same_tuple_weak&lt;_ExactArgs::RRefs, _TiedArgs&gt;
+    &gt;;
+
+    <span class="pl-k">return</span> <span class="pl-c1">_Match_Impl_Dispatch</span>(
+        _MatchCondition{},
+        std::forward&lt;_TiedArgs&gt;( tpl ),
+        std::forward&lt;_Callable&gt;( callable ),
+        std::forward&lt;_Callables&gt;( callables )...
+    );
+}
+
+<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _TiedArgs, <span class="pl-k">typename</span> _Callable&gt; 
+<span class="pl-en">decltype</span>(<span class="pl-k">auto</span>) _Match_Impl( _TiedArgs&amp;&amp; tpl, _Callable&amp;&amp; callable )
+{
+    <span class="pl-k">return</span> <span class="pl-c1">_Match_Impl_Call</span>(
+        std::forward&lt;_TiedArgs&gt;( tpl ),
+        std::forward&lt;_Callable&gt;( callable ),
+        std::make_index_sequence&lt;std::tuple_size&lt;_TiedArgs&gt;::value&gt;{}
+    );
+}</pre>
+         </div>
+         <p>Implementation of <code>_Match_Impl</code> doesn't seems to be complicated too. It has two overloads: with variadic pack of
+            callables and with only one. The second one, as said above, we just call invoker-function, that makes an attempt
+            to call the last remaining (from initial variadic pack) fucntion with specified arguments. The first overload is
+            more interesting. Full implementation of <code>ArgsOf</code> you can find in my GitHub repo (it will be provided in the end
+            of this article). For future understanding you need to know, that it has three fields: <code>Args</code>, <code>LRefs</code>, <code>RRefs</code> -
+            tuples with exact arguments types, lvalue references to arguments types and rvalue references to arguments types
+            respectively. These tuples are weakly compared to passed to <code>Match</code> tuple. What is weak comparison in this case?
+            Tuples are weakly equal if they have the same size AND all corresponding decayed types are either the same or make
+            a hierarchy (base - derived). This weak comparison is implemented in <code>is_same_tuples_weak</code> trait. I think, this is
+            quite easy part of code and there is no need to place it into this article (you can find it in the repository).
+         </p>
+         <p>Let's go to the most interestion things: <code>_Match_Impl_Dispatch</code> and <code>_Match_Impl_Call</code>. The idea of
+            <code>_Match_Impl_Dispatch</code> is to use tag dispatch technique to chose between calling chosen matched function or going
+            to the next function in pack:
+         </p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _TiedArgs, <span class="pl-k">typename</span> _Callable, <span class="pl-k">typename</span>... _Callables&gt; 
+<span class="pl-en">decltype</span>(<span class="pl-k">auto</span>) _Match_Impl_Dispatch( std::true_type, _TiedArgs&amp;&amp; tpl, _Callable&amp;&amp; callable, _Callables&amp;&amp;... )
+{
+    <span class="pl-k">return</span> <span class="pl-c1">_Match_Impl_Call</span>( 
+        std::forward&lt;_TiedArgs&gt;( tpl ),
+        std::forward&lt;_Callable&gt;( callable ),
+        std::make_index_sequence&lt;std::tuple_size&lt;_TiedArgs&gt;::value&gt;{}
+    );
+}
+
+<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _TiedArgs, <span class="pl-k">typename</span> _Callable, <span class="pl-k">typename</span>... _Callables&gt; 
+<span class="pl-en">decltype</span>(<span class="pl-k">auto</span>) _Match_Impl_Dispatch( std::false_type, _TiedArgs&amp;&amp; tpl, _Callable&amp;&amp;, _Callables&amp;&amp;... callables )
+{
+    <span class="pl-k">return</span> <span class="pl-c1">_Match_Impl</span>(
+        std::forward&lt;_TiedArgs&gt;( tpl ),
+        std::forward&lt;_Callables&gt;( callables )...
+    );
+}</pre>
+         </div>
+         <p>Remember <code>_MatchCondition</code> from <code>_Match_Impl</code> - it is the first argument of these functions. If condition is true
+            (it means that types are weakly the same), than _MatchCondition is derived from <code>std::true_type</code>, otherwise - from
+            <code>std::false_type</code>. This is the key of tag dispatch. The first overload forwards all arguments and callable to invoker,
+            that unpacks tuple and pass all the arguments to callable. <code>index_sequence</code> is necessary for expanding <code>std::tuple</code>
+            using <code>std::get</code> (see below). The second overload makes one step backwards, but with reduced by one pack of callables.
+         </p>
+         <p>Now it's time to look at invoker function:</p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _TiedArgs, <span class="pl-k">typename</span> _Callable, <span class="pl-c1">size_t</span>... _Idxs&gt; 
+<span class="pl-en">decltype</span>(<span class="pl-k">auto</span>) _Match_Impl_Call( _TiedArgs&amp;&amp; tpl, _Callable&amp;&amp; callable, std::index_sequence&lt;_Idxs...&gt; )
+{
+    <span class="pl-c"><span class="pl-c">//</span> Checks are removed</span>
+    <span class="pl-k">return</span> <span class="pl-c1">callable</span>( 
+        std::get&lt;_Idxs&gt;( std::forward&lt;_TiedArgs&gt;( tpl ) )... 
+    );
+}</pre>
+         </div>
+         <p>It is another extremely simple function, that uses variadic pack of indices expansion in application to <code>std::get</code> to
+            extract arguments from <code>std::tuple</code> and pass them into a chosen callable object.
+         </p>
+         <p>That's it! As you can see, there's nothing extremely complicated in writing an emulation of pattern matching.</p>
+         <hr>
+         <h3>
+            <a id="user-content-part-3-usage" class="anchor" aria-hidden="true" href="#part-3-usage">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            Part 3. Usage
+         </h3>
+         <p>Now is the time to look, how it works. Return for a moment to the beginning of the article to remember the example provided
+            there and come back :) This code can be implemented using the library as following:
+         </p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-c"><span class="pl-c">//</span> Declared above:</span>
+<span class="pl-c"><span class="pl-c">//</span> DoWorkImplVector( std::vector&lt;int&gt;&amp; )</span>
+<span class="pl-c"><span class="pl-c">//</span> DoWorkImplMap( std::map&lt;int, int&gt;&amp; )</span>
+
+<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _Type&gt;
+<span class="pl-k">void</span> <span class="pl-en">DoWork</span>( _Type&amp; value )
+{
+    <span class="pl-c1">match::Match</span>(
+        <span class="pl-c1">std::make_tuple</span>( value ),
+        []( std::vector&lt;<span class="pl-k">int</span>&gt;&amp; v )   { <span class="pl-k">return</span> <span class="pl-c1">DoWorkImplVector</span>( v ); },
+        []( std::map&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&amp; m ) { <span class="pl-k">return</span> <span class="pl-c1">DoWorkImplMap</span>( m ); }
+    );
+}
+
+<span class="pl-c"><span class="pl-c">//</span> ...</span>
+
+std::vector&lt;<span class="pl-k">int</span>&gt; vect = <span class="pl-c"><span class="pl-c">/*</span> ... <span class="pl-c">*/</span></span>;
+<span class="pl-en">DoWork</span>( vect );</pre>
+         </div>
+         <p>Now it successfully compiles and works fine! Or you can do it in a short form:</p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _Type&gt;
+<span class="pl-k">void</span> <span class="pl-en">DoWork</span>( _Type&amp; value )
+{
+    <span class="pl-c1">match::Match</span>(
+        <span class="pl-c1">std::make_tuple</span>( value ),
+        DoWorkImplVector,
+        DoWorkImplMap
+    );
+}</pre>
+         </div>
+         <p>Isn't it a beauty and astonishing power of C++ and templates? Isn't it just one more cool thing you can do in C++?
+            I think, that this approach can make our code more cleaner by removing if-else chains and tag dispatching in some
+            cases, where they were the only solutions.
+         </p>
+         <hr>
+         <p><a href="https://github.com/GeorgyFirsov/PatternMatching">PatternMatching</a> library on GitHub.</p>
+      </article>
+   </div>
+</body>
