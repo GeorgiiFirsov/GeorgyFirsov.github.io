@@ -1,18 +1,29 @@
 <head>
-	<link crossorigin="anonymous" media="all" integrity="sha512-ZUjVod2EvYMDbGqRSyW0rpfgBq3i+gnR/4PfrzLsy5f20oIcRfgFQFVKgi3Ztp917bP1K/kdP5q8+nAlJ3+cFA==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-6548d5a1dd84bd83036c6a914b25b4ae.css">
-	<link crossorigin="anonymous" media="all" integrity="sha512-XmTo0DwOmwnCCrr0uMQYHfL0M3TneI8YPYYv8+0eJv3kGfvWqdlZ4RuNXMdYX3ZkPBtdPZlh4pOA9F4FkwV/qw==" rel="stylesheet" href="https://github.githubassets.com/assets/github-5e64e8d03c0e9b09c20abaf4b8c4181d.css">
+   <link crossorigin="anonymous" media="all" integrity="sha512-ZUjVod2EvYMDbGqRSyW0rpfgBq3i+gnR/4PfrzLsy5f20oIcRfgFQFVKgi3Ztp917bP1K/kdP5q8+nAlJ3+cFA==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-6548d5a1dd84bd83036c6a914b25b4ae.css">
+   <link crossorigin="anonymous" media="all" integrity="sha512-XmTo0DwOmwnCCrr0uMQYHfL0M3TneI8YPYYv8+0eJv3kGfvWqdlZ4RuNXMdYX3ZkPBtdPZlh4pOA9F4FkwV/qw==" rel="stylesheet" href="https://github.githubassets.com/assets/github-5e64e8d03c0e9b09c20abaf4b8c4181d.css">
 </head>
 <body>
-<div id="readme" class="Box-body readme blob js-code-block-container">
-    <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h2><a id="user-content-c14-reflection-tricks" class="anchor" aria-hidden="true" href="#c14-reflection-tricks"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>C++14 reflection tricks</h2>
-<p><strong>Note 1:</strong> actually there's no <em>true</em> reflection in C++14. There are some proposals with features,
-that allow you to reflect types in compile time, for instance with <code>reflexpr</code> keyword or using metaclasses,
-but it is a future of C++ language. In this post I'll show you how to <em>simulate</em> it and do some magic
-with POD-structures.</p>
-<p><strong>Note 2:</strong> (motivation). In my company I was standing in the front of one interesting task: to write a function,
-that receives two raw pointers to structs and an id of a structure, that corresponds to a type of structs. The
-task was to compare two objects and dump the difference into XML. It looks like this:</p>
-<div class="highlight highlight-source-c++"><pre><span class="pl-c"><span class="pl-c">//</span> We use WinAPI in our project</span>
+   <div id="readme" class="Box-body readme blob js-code-block-container">
+      <article class="markdown-body entry-content p-3 p-md-6" itemprop="text">
+         <h2>
+            <a id="user-content-c14-reflection-tricks" class="anchor" aria-hidden="true" href="#c14-reflection-tricks">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            C++14 reflection tricks
+         </h2>
+         <p><strong>Note 1:</strong> actually there's no <em>true</em> reflection in C++14. There are some proposals with features,
+            that allow you to reflect types in compile time, for instance with <code>reflexpr</code> keyword or using metaclasses,
+            but it is a future of C++ language. In this post I'll show you how to <em>simulate</em> it and do some magic
+            with POD-structures.
+         </p>
+         <p><strong>Note 2:</strong> (motivation). In my company I was standing in the front of one interesting task: to write a function,
+            that receives two raw pointers to structs and an id of a structure, that corresponds to a type of structs. The
+            task was to compare two objects and dump the difference into XML. It looks like this:
+         </p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-c"><span class="pl-c">//</span> We use WinAPI in our project</span>
 BSTR <span class="pl-en">GetDiff</span>(ETypeId id, <span class="pl-k">const</span> VOID* pOld, <span class="pl-k">const</span> VOID* pNew)
 {
     <span class="pl-k">switch</span>(id)
@@ -25,11 +36,14 @@ BSTR <span class="pl-en">GetDiff</span>(ETypeId id, <span class="pl-k">const</sp
     <span class="pl-k">case</span> TYPE2:
         ...
     }
-}</pre></div>
-<p>The key-problem was to implement all the 19 variants of <code>GetDiffImpl</code>. They were implemented in simple way: I
-went through each field by name and compare them. In case they are different values I write them into a map
-like that:</p>
-<div class="highlight highlight-source-c++"><pre><span class="pl-c"><span class="pl-c">//</span>                      tag name               old value    new value</span>
+}</pre>
+         </div>
+         <p>The key-problem was to implement all the 19 variants of <code>GetDiffImpl</code>. They were implemented in simple way: I
+            went through each field by name and compare them. In case they are different values I write them into a map
+            like that:
+         </p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-c"><span class="pl-c">//</span>                      tag name               old value    new value</span>
 <span class="pl-c"><span class="pl-c">//</span>                          V                      V            V</span>
 <span class="pl-k">using</span> <span class="pl-c1">diff_t</span> = std::map&lt;std::string, std::pair&lt;std::string, std::string&gt;&gt;;
 
@@ -40,11 +54,14 @@ like that:</p>
         <span class="pl-c1">std::to_string</span>(pOld-&gt;<span class="pl-smi">fieldN</span>),
         <span class="pl-c1">std::to_string</span>(pNew-&gt;<span class="pl-smi">fieldN</span>)
     );
-}</pre></div>
-<p>And such code was repeated for each field in structure. Seems like it is possible to do better. The key-problem
-was that it was forbidden to modify structs somehow in old code. It made impossible to use Boost.Fusion with
-its macro adaptors. But actually I want to write it somehow like that:</p>
-<div class="highlight highlight-source-c++"><pre><span class="pl-c"><span class="pl-c">//</span> in GetDiffImpl:</span>
+}</pre>
+         </div>
+         <p>And such code was repeated for each field in structure. Seems like it is possible to do better. The key-problem
+            was that it was forbidden to modify structs somehow in old code. It made impossible to use Boost.Fusion with
+            its macro adaptors. But actually I want to write it somehow like that:
+         </p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-c"><span class="pl-c">//</span> in GetDiffImpl:</span>
 
 <span class="pl-k">const</span> <span class="pl-k">auto</span> old_tpl = ToTuple(*pOld);
 <span class="pl-k">const</span> <span class="pl-k">auto</span> new_tpl = ToTuple(*pNew);
@@ -59,23 +76,41 @@ its macro adaptors. But actually I want to write it somehow like that:</p>
     }
 });
 
-<span class="pl-c"><span class="pl-c">//</span> thats it!</span></pre></div>
-<p>In current article I'll explain, how to make it possible.</p>
-<hr>
-<h3><a id="user-content-part-1-existing-solutions" class="anchor" aria-hidden="true" href="#part-1-existing-solutions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Part 1. Existing solutions</h3>
-<ul>
-<li>Boost.Fusion was declined, as said before, because of impossibility to change written structs and moreover
-because it was impossible to use Boost in our company's project for some reasons and requirements to projects.</li>
-<li><a href="https://github.com/apolukhin/magic_get/">magic_get</a> by Antony Polukhin was declined, because this library
-didn't compile in MSVC 19.16 with options set in our project (and it is impossible to change them, because of
-requirements). But everything was fine with other options :( Actually this project was the turning-point to
-in my thinking. My solution is based on it.</li>
-</ul>
-<hr>
-<h3><a id="user-content-part-2-implementation-and-ideas" class="anchor" aria-hidden="true" href="#part-2-implementation-and-ideas"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Part 2. Implementation and ideas</h3>
-<p>First of all we need o remember, how data is placed in memory. It is true at least for MSVS 19.16 - 19.22.
-We can just look at examples to recognize patterns:</p>
-<pre><code>short int char ----------+     char int char char ---------+     char { int char } char ---------------+
+<span class="pl-c"><span class="pl-c">//</span> thats it!</span></pre>
+         </div>
+         <p>In current article I'll explain, how to make it possible.</p>
+         <hr>
+         <h3>
+            <a id="user-content-part-1-existing-solutions" class="anchor" aria-hidden="true" href="#part-1-existing-solutions">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            Part 1. Existing solutions
+         </h3>
+         <ul>
+            <li>Boost.Fusion was declined, as said before, because of impossibility to change written structs and moreover
+               because it was impossible to use Boost in our company's project for some reasons and requirements to projects.
+            </li>
+            <li><a href="https://github.com/apolukhin/magic_get/">magic_get</a> by Antony Polukhin was declined, because this library
+               didn't compile in MSVC 19.16 with options set in our project (and it is impossible to change them, because of
+               requirements). But everything was fine with other options :( Actually this project was the turning-point to
+               in my thinking. My solution is based on it.
+            </li>
+         </ul>
+         <hr>
+         <h3>
+            <a id="user-content-part-2-implementation-and-ideas" class="anchor" aria-hidden="true" href="#part-2-implementation-and-ideas">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            Part 2. Implementation and ideas
+         </h3>
+         <p>First of all we need o remember, how data is placed in memory. It is true at least for MSVS 19.16 - 19.22.
+            We can just look at examples to recognize patterns:
+         </p>
+         <pre><code>short int char ----------+     char int char char ---------+     char { int char } char ---------------+
  |     |---------------  |      |    |   |--------------+  |      |   |          |                     |
  +---        |  |  |  |  |      |    |------+--+--+--+  |  |      |   +-------+  +-------------------+ |
  v  v        v  v  v  v  v      v           v  v  v  v  v  v      v           |                      | v
@@ -85,15 +120,17 @@ We can just look at examples to recognize patterns:</p>
        ---+-----------------       ---+-----------------------        --------------+---------------------
        padding                     padding                                       padding
 </code></pre>
-<p>As we can see there are some paddings between data. They appear after small data types and structs to make their
-alignment to be an even number (usually to be a multiple of 4). It will be important, when we will try to reflect
-structs with other structs inside. For now we'll leave this topic.</p>
-<p>We want to convert struct into a tuple. As soon as we want it, we need to know types inside a struct, to instantiate
-a tuple with them. The idea is to assign to all fundamental types an id an convert our struct firstly to compile-time
-array of these ids and after that convert this array into a variadic type pack to specialize a tuple template. To
-support nested structures we will write type's id at position equal to sum of sizes of all previous types. Array size
-will be sizeof(Type):</p>
-<pre><code>short: id = 7,  size = 2
+         <p>As we can see there are some paddings between data. They appear after small data types and structs to make their
+            alignment to be an even number (usually to be a multiple of 4). It will be important, when we will try to reflect
+            structs with other structs inside. For now we'll leave this topic.
+         </p>
+         <p>We want to convert struct into a tuple. As soon as we want it, we need to know types inside a struct, to instantiate
+            a tuple with them. The idea is to assign to all fundamental types an id an convert our struct firstly to compile-time
+            array of these ids and after that convert this array into a variadic type pack to specialize a tuple template. To
+            support nested structures we will write type's id at position equal to sum of sizes of all previous types. Array size
+            will be sizeof(Type):
+         </p>
+         <pre><code>short: id = 7,  size = 2
 int:   id = 8,  size = 4
 char:  id = 11, size = 1
 
@@ -102,15 +139,26 @@ char:  id = 11, size = 1
 { char, { int, char }, char } &lt;-&gt; { 11,  8,  0,  0,  0, 11,  0,  0,  0, 11,  0,  0 }
                                          |  array for nested struct  |
 </code></pre>
-<p>Right after that we shrink this array to get only ids without zeros. Than we just convert these ids back
-into types. Shrinked array should be static too, so we need to know its size - we need to invent a way to
-count fields in aggragate struct. Here comes aggregate initialization in C++:</p>
-<div class="highlight highlight-source-c++"><pre><span class="pl-c"><span class="pl-c">/*</span> This code is going to compile only when n is less or equal to number </span>
+         <p>Right after that we shrink this array to get only ids without zeros. Than we just convert these ids back
+            into types. Shrinked array should be static too, so we need to know its size - we need to invent a way to
+            count fields in aggragate struct. Here comes aggregate initialization in C++:
+         </p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-c"><span class="pl-c">/*</span> This code is going to compile only when n is less or equal to number </span>
 <span class="pl-c">of fields and each value is implicitly convertible into corresponding type <span class="pl-c">*/</span></span>
-T{ val_1, val_2, ... , val_n };</pre></div>
-<h4><a id="user-content-getfieldscount" class="anchor" aria-hidden="true" href="#getfieldscount"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GetFieldsCount</h4>
-<p>Let's write some code for that:</p>
-<div class="highlight highlight-source-c++"><pre><span class="pl-k">template</span>&lt;<span class="pl-c1">size_t</span> <span class="pl-c"><span class="pl-c">/*</span> _Idx <span class="pl-c">*/</span></span>&gt;
+T{ val_1, val_2, ... , val_n };</pre>
+         </div>
+         <h4>
+            <a id="user-content-getfieldscount" class="anchor" aria-hidden="true" href="#getfieldscount">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            GetFieldsCount
+         </h4>
+         <p>Let's write some code for that:</p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">template</span>&lt;<span class="pl-c1">size_t</span> <span class="pl-c"><span class="pl-c">/*</span> _Idx <span class="pl-c">*/</span></span>&gt;
 <span class="pl-k">struct</span> <span class="pl-en">_Init</span> {
     <span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _Type&gt;
     <span class="pl-k">constexpr</span> <span class="pl-k">operator</span> <span class="pl-en">_Type</span>();
@@ -127,14 +175,24 @@ T{ val_1, val_2, ... , val_n };</pre></div>
 
 <span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _Type&gt;
 <span class="pl-k">constexpr</span> <span class="pl-c1">size_t</span> <span class="pl-en">GetFieldsCount</span>() <span class="pl-k">noexcept</span>
-{ <span class="pl-k">return</span> _GetFeldsCountImpl&lt;_Type&gt;( std::make_index_sequence&lt;<span class="pl-k">sizeof</span>( _Type )&gt;{} ); }</pre></div>
-<p>That's the first part! But what's happening here? The key is in two <code>_GetFeldsCountImpl</code> functions.
-The first one is more specialized, so compiler tries to use it first - it tries to initialize
-type with concrete number of arguments and in case of success returns their count, otherwise by SFINAE
-compiler uses the second function, that reduces number of arguments by one.</p>
-<h4><a id="user-content-gettypeids" class="anchor" aria-hidden="true" href="#gettypeids"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GetTypeIds</h4>
-<p>Now it's time to write <code>GetTypeIds</code> function. Let's write some more code!</p>
-<div class="highlight highlight-source-c++"><pre><span class="pl-k">template</span>&lt;<span class="pl-k">typename</span>  _Type, <span class="pl-c1">size_t</span>... _Idxs&gt;
+{ <span class="pl-k">return</span> _GetFeldsCountImpl&lt;_Type&gt;( std::make_index_sequence&lt;<span class="pl-k">sizeof</span>( _Type )&gt;{} ); }</pre>
+         </div>
+         <p>That's the first part! But what's happening here? The key is in two <code>_GetFeldsCountImpl</code> functions.
+            The first one is more specialized, so compiler tries to use it first - it tries to initialize
+            type with concrete number of arguments and in case of success returns their count, otherwise by SFINAE
+            compiler uses the second function, that reduces number of arguments by one.
+         </p>
+         <h4>
+            <a id="user-content-gettypeids" class="anchor" aria-hidden="true" href="#gettypeids">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            GetTypeIds
+         </h4>
+         <p>Now it's time to write <code>GetTypeIds</code> function. Let's write some more code!</p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">template</span>&lt;<span class="pl-k">typename</span>  _Type, <span class="pl-c1">size_t</span>... _Idxs&gt;
 <span class="pl-k">constexpr</span> <span class="pl-k">auto</span> <span class="pl-en">_GetIdsRaw_Impl</span>( std::index_sequence&lt;_Idxs...&gt; ) <span class="pl-k">noexcept</span>
 {
     <span class="pl-k">constexpr</span> SizeTArray&lt;<span class="pl-k">sizeof</span>( _Type )&gt;    idsRaw { { <span class="pl-c1">0</span> } };
@@ -172,14 +230,17 @@ compiler uses the second function, that reduces number of arguments by one.</p>
 
 <span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _Type&gt; 
 <span class="pl-k">constexpr</span> <span class="pl-en">decltype</span>(<span class="pl-k">auto</span>) GetTypeIds() <span class="pl-k">noexcept</span>
-{ <span class="pl-k">return</span> _GetTypeIds_Impl&lt;_Type&gt;( std::make_index_sequence&lt;GetFieldsCount&lt;_Type&gt;()&gt;{} ); }</pre></div>
-<p>This big amount of terrifying code does simple things: it just writes an array of ids with zero-paddings (see above)
-in <code>_GetIdsRaw_Impl</code> and removes zeros after that by calling <code>Run</code> method of transformation algorithm. <code>_GetIdsRaw_Impl</code>
-does following: it creates three static constexpr arrays of type <code>size_t</code> and fills them with sizes, offsets and finally
-ids (with paddings) of internal types with all nested structs expanded. Structs <code>_OffsetsInit</code> and <code>_IndexedInit</code> are
-modifications of struct <code>_Init</code> above. I'll not provide their code here in article, but you can find it on my GitHub.</p>
-<p>Now we need to talk about ids. How to assign them to types? One way is to make like that:</p>
-<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">define</span> <span class="pl-en">REFLECTION_REGISTER_TYPE</span>(<span class="pl-v"> _Type, _Integer </span>)                                                          \
+{ <span class="pl-k">return</span> _GetTypeIds_Impl&lt;_Type&gt;( std::make_index_sequence&lt;GetFieldsCount&lt;_Type&gt;()&gt;{} ); }</pre>
+         </div>
+         <p>This big amount of terrifying code does simple things: it just writes an array of ids with zero-paddings (see above)
+            in <code>_GetIdsRaw_Impl</code> and removes zeros after that by calling <code>Run</code> method of transformation algorithm. <code>_GetIdsRaw_Impl</code>
+            does following: it creates three static constexpr arrays of type <code>size_t</code> and fills them with sizes, offsets and finally
+            ids (with paddings) of internal types with all nested structs expanded. Structs <code>_OffsetsInit</code> and <code>_IndexedInit</code> are
+            modifications of struct <code>_Init</code> above. I'll not provide their code here in article, but you can find it on my GitHub.
+         </p>
+         <p>Now we need to talk about ids. How to assign them to types? One way is to make like that:</p>
+         <div class="highlight highlight-source-c++">
+            <pre>#<span class="pl-k">define</span> <span class="pl-en">REFLECTION_REGISTER_TYPE</span>(<span class="pl-v"> _Type, _Integer </span>)                                                          \
     <span class="pl-k">constexpr</span> <span class="pl-c1">size_t</span> <span class="pl-en">_GetIdByType</span>( IdenticalType&lt;_Type&gt; ) <span class="pl-k">noexcept</span> { <span class="pl-k">return</span> _Integer; }                      \
     <span class="pl-k">constexpr</span> _Type  <span class="pl-en">_GetTypeById</span>( SizeT&lt;_Integer&gt; ) <span class="pl-k">noexcept</span> { <span class="pl-k">constexpr</span> _Type result{}; <span class="pl-k">return</span> result; }
     
@@ -187,13 +248,23 @@ modifications of struct <code>_Init</code> above. I'll not provide their code he
 <span class="pl-en">REFLECTION_REGISTER_TYPE</span>( <span class="pl-k">unsigned</span> <span class="pl-k">short</span>,  <span class="pl-c1">2</span> );
 <span class="pl-en">REFLECTION_REGISTER_TYPE</span>( <span class="pl-k">unsigned</span> <span class="pl-k">int</span>  ,  <span class="pl-c1">3</span> );
 <span class="pl-en">REFLECTION_REGISTER_TYPE</span>( <span class="pl-k">unsigned</span> <span class="pl-k">long</span> ,  <span class="pl-c1">4</span> );
-...</pre></div>
-<p>Now for each fundamental type we'll have two functions <code>_GetIdByType</code> and <code>_GetTypeById</code>. The first one is used in
-<code>_IndexedInit</code> for example. The second one will help us to extract type back from array of ids. It will be used in
-the next paragraph to construct a tuple.</p>
-<h4><a id="user-content-totuple-and-for_each" class="anchor" aria-hidden="true" href="#totuple-and-for_each"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ToTuple and for_each</h4>
-<p>Now we are ready to create the main function - the reason why I started to build this library. This function is <code>ToTuple</code>:</p>
-<div class="highlight highlight-source-c++"><pre><span class="pl-k">template</span>&lt;<span class="pl-k">typename</span>  _Type, <span class="pl-c1">size_t</span>... _Idxs&gt; 
+...</pre>
+         </div>
+         <p>Now for each fundamental type we'll have two functions <code>_GetIdByType</code> and <code>_GetTypeById</code>. The first one is used in
+            <code>_IndexedInit</code> for example. The second one will help us to extract type back from array of ids. It will be used in
+            the next paragraph to construct a tuple.
+         </p>
+         <h4>
+            <a id="user-content-totuple-and-for_each" class="anchor" aria-hidden="true" href="#totuple-and-for_each">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            ToTuple and for_each
+         </h4>
+         <p>Now we are ready to create the main function - the reason why I started to build this library. This function is <code>ToTuple</code>:</p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">template</span>&lt;<span class="pl-k">typename</span>  _Type, <span class="pl-c1">size_t</span>... _Idxs&gt; 
 <span class="pl-k">constexpr</span> <span class="pl-k">auto</span> <span class="pl-en">_ToTuple_Impl</span>( <span class="pl-k">const</span> _Type&amp; obj, std::index_sequence&lt;_Idxs...&gt; ) <span class="pl-k">noexcept</span>
 {
     <span class="pl-k">constexpr</span> <span class="pl-k">auto</span> ids = GetTypeIds&lt;_Type&gt;();
@@ -237,17 +308,21 @@ the next paragraph to construct a tuple.</p>
 
 <span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> _Type&gt; 
 <span class="pl-k">constexpr</span> <span class="pl-en">decltype</span>(<span class="pl-k">auto</span>) ToTuple( <span class="pl-k">const</span> _Type&amp; obj ) <span class="pl-k">noexcept</span>
-{ <span class="pl-k">return</span> <span class="pl-c1">_ToTuple_Impl</span>( obj, std::make_index_sequence&lt;details::GetTotalFieldsCount&lt;_Type&gt;()&gt;{} ); }</pre></div>
-<p>Here we meet similar part to <code>GetTypeIds</code> , but firstly let's consider with simple cases. The simple case is when we
-have no nested structs inside our struct. In this case we have the same sizes of tuple and struct - they have the same
-alignment, the same paddings at the same places, so we can just convert our object to tuple by applying <code>static_cast</code> to
-it.</p>
-<p>The hard case is when we have nested structs. In this case we can get two arrays - with only ids and with ids and paddings.
-These paddings are the minimal ones, so we need to tune them a bit in some cases, to make them match the requirement
-<code>offset % alignof( element_t ) == 0</code>. In that case we use own <code>for_each</code> written for our implementation of tuple (tuple
-is necessary to implement with own hand to ensure straight order of elements.</p>
-<p>Now let's write <code>for_each</code>:</p>
-<div class="highlight highlight-source-c++"><pre><span class="pl-k">template</span>&lt;<span class="pl-c1">size_t</span> _Idx = <span class="pl-c1">0</span>, <span class="pl-k">typename</span> _Func, <span class="pl-k">typename</span> _Tuple&gt;
+{ <span class="pl-k">return</span> <span class="pl-c1">_ToTuple_Impl</span>( obj, std::make_index_sequence&lt;details::GetTotalFieldsCount&lt;_Type&gt;()&gt;{} ); }</pre>
+         </div>
+         <p>Here we meet similar part to <code>GetTypeIds</code> , but firstly let's consider with simple cases. The simple case is when we
+            have no nested structs inside our struct. In this case we have the same sizes of tuple and struct - they have the same
+            alignment, the same paddings at the same places, so we can just convert our object to tuple by applying <code>static_cast</code> to
+            it.
+         </p>
+         <p>The hard case is when we have nested structs. In this case we can get two arrays - with only ids and with ids and paddings.
+            These paddings are the minimal ones, so we need to tune them a bit in some cases, to make them match the requirement
+            <code>offset % alignof( element_t ) == 0</code>. In that case we use own <code>for_each</code> written for our implementation of tuple (tuple
+            is necessary to implement with own hand to ensure straight order of elements.
+         </p>
+         <p>Now let's write <code>for_each</code>:</p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">template</span>&lt;<span class="pl-c1">size_t</span> _Idx = <span class="pl-c1">0</span>, <span class="pl-k">typename</span> _Func, <span class="pl-k">typename</span> _Tuple&gt;
 <span class="pl-k">constexpr</span> <span class="pl-k">typename</span> std::enable_if&lt;_Idx == _Tuple::size&gt;::type
 <span class="pl-en">for_each</span>( <span class="pl-k">const</span> _Tuple&amp; <span class="pl-c"><span class="pl-c">/*</span> tpl <span class="pl-c">*/</span></span>, _Func&amp;&amp; <span class="pl-c"><span class="pl-c">/*</span> fn <span class="pl-c">*/</span></span> ) <span class="pl-k">noexcept</span>
 { }
@@ -258,13 +333,23 @@ is necessary to implement with own hand to ensure straight order of elements.</p
 {
     <span class="pl-c1">fn</span>( get&lt;_Idx&gt;( tpl ) );
     for_each&lt;_Idx + <span class="pl-c1">1</span>&gt;( tpl, std::forward&lt;_Func&gt;( fn ) );
-}</pre></div>
-<p>It is extremely simple it is just a recursive template function. Recursion ends on empty function when index is equal
-to size of a tuple.</p>
-<hr>
-<h3><a id="user-content-part-3-usage" class="anchor" aria-hidden="true" href="#part-3-usage"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Part 3. Usage</h3>
-<p>For now it impossible to write code like I wrote in <strong>Note 2</strong>, but we can do like that:</p>
-<div class="highlight highlight-source-c++"><pre><span class="pl-k">const</span> <span class="pl-k">auto</span> old_tpl = ToTuple(*pOld);
+}</pre>
+         </div>
+         <p>It is extremely simple it is just a recursive template function. Recursion ends on empty function when index is equal
+            to size of a tuple.
+         </p>
+         <hr>
+         <h3>
+            <a id="user-content-part-3-usage" class="anchor" aria-hidden="true" href="#part-3-usage">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            Part 3. Usage
+         </h3>
+         <p>For now it impossible to write code like I wrote in <strong>Note 2</strong>, but we can do like that:</p>
+         <div class="highlight highlight-source-c++">
+            <pre><span class="pl-k">const</span> <span class="pl-k">auto</span> old_tpl = ToTuple(*pOld);
 <span class="pl-k">const</span> <span class="pl-k">auto</span> new_tpl = ToTuple(*pNew);
 
 CXml old_xml, new_xml;
@@ -278,20 +363,29 @@ index = <span class="pl-c1">0</span>;
     new_xml.<span class="pl-c1">MakeTag</span>( element, tags_mapping[<span class="pl-c1">index</span>++] );
 });
 
-result = XmlDiff( old_xml, new_xml );</pre></div>
-<p>Where <code>tags_mapping</code> has, for instance, following type: <code>std::map&lt;size_t, std::string&gt;</code>, where <code>size_t</code> represents an index
-in structure and <code>std::string</code> is a name of tag (name of field in structure for example). Isn't it cool and beautiful? The
-main goal is, that this way we can implement almost all <code>GetDiffImpl</code> functions in the same way!</p>
-<hr>
-<h3><a id="user-content-part-4-disadvantages" class="anchor" aria-hidden="true" href="#part-4-disadvantages"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Part 4. Disadvantages</h3>
-<ul>
-<li>This method doesn't support arrays, unions, bit fields, non-POD types (nested too).</li>
-<li>This method works only on MSVC 19.16+ compiler.</li>
-</ul>
-<hr>
-<p>In the next posts I'm going to improve this library with some other features to support a bit more structs.</p>
-<hr>
-<a href="github.com/GeorgyFirsov/PodSerializer">PodSerializer</a> library on GitHub.
-</article>
-  </div>
+result = XmlDiff( old_xml, new_xml );</pre>
+         </div>
+         <p>Where <code>tags_mapping</code> has, for instance, following type: <code>std::map&lt;size_t, std::string&gt;</code>, where <code>size_t</code> represents an index
+            in structure and <code>std::string</code> is a name of tag (name of field in structure for example). Isn't it cool and beautiful? The
+            main goal is, that this way we can implement almost all <code>GetDiffImpl</code> functions in the same way!
+         </p>
+         <hr>
+         <h3>
+            <a id="user-content-part-4-disadvantages" class="anchor" aria-hidden="true" href="#part-4-disadvantages">
+               <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+               </svg>
+            </a>
+            Part 4. Disadvantages
+         </h3>
+         <ul>
+            <li>This method doesn't support arrays, unions, bit fields, non-POD types (nested too).</li>
+            <li>This method works only on MSVC 19.16+ compiler.</li>
+         </ul>
+         <hr>
+         <p>In the next posts I'm going to improve this library with some other features to support a bit more structs.</p>
+         <hr>
+         <a href="github.com/GeorgyFirsov/PodSerializer">PodSerializer</a> library on GitHub.
+      </article>
+   </div>
 </body>
