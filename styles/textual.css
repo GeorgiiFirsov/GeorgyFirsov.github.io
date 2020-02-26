@@ -39,10 +39,6 @@
 }
 
 /* Styles for articles headers */
-.article {
-	padding-top: 0.5em;
-}
-
 .article a {
 	font-weight: bold;
 }
