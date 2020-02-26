@@ -25,20 +25,36 @@
 
 /* Columns style */
 .row {
-    display: flex;
 }
 
-.col {
-    flex: 50%;
-    padding: 10px;
-}
+.col {}
 
 .col img {
+	padding-top: 10px;
     display: block;
     margin-left: auto;
     margin-right: auto;
     height: 150px;
     width: auto;
+}
+
+@media screen and (min-width: 800px) {
+	.row {
+		display: flex;
+	}
+
+	.col {
+		flex: 50%;
+		padding: 10px;
+	}
+
+	.col img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		height: 150px;
+		width: auto;
+	}
 }
 
 .label {
