@@ -342,3 +342,9 @@ main goal is, that this way we can implement almost all `GetDiffImpl` functions 
 ----
 
 In the next posts I'm going to improve this library with some other features to support a bit more structs.
+
+----
+
+[PodSerializer](https://github.com/GeorgyFirsov/PodSerializer) library on GitHub
+
+Author: Georgy Firsov. 2020
