@@ -222,3 +222,5 @@ cases, where they were the only solutions.
 ----
 
 [PatternMatching](https://github.com/GeorgyFirsov/PatternMatching) library on GitHub.
+
+Author: Georgy Firsov. 2020
