@@ -1,41 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        
+	<head>
 		<script src="./scripts/i18n.js"></script>
-        
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145860793-1"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'UA-145860793-1');
-        </script>
-    
-        <!-- Meta information -->
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Personal developer blog. Mostly for notes, thoughts, etc.">
-        <meta name="author" content="Georgy Firsov">
-        
-        <link rel="canonical" href="http://georgyfirsov.github.io/index.html" />
-        <link rel="alternate" href="http://georgyfirsov.github.io/index.html" hreflang="ru" />
-        
-        <!-- Use custom styles -->
-        <link rel="stylesheet" href="./styles/textual.css" />
-        <link rel="stylesheet" href="./styles/graphical.css" />
-        
-        <!-- MDL styles -->
-        <link rel="stylesheet" href="./styles/mdl/material.css" />
-		
-        <!-- Title -->
-        <title>Georgy Firsov</title>
-
-    </head>
-    
-    <body>
-        <!-- Bar section -->
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145860793-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			
+			gtag('config', 'UA-145860793-1');
+		</script>
+		<!-- Meta information -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Personal developer blog. Mostly for notes, thoughts, etc.">
+		<meta name="author" content="Georgy Firsov">
+		<link rel="canonical" href="http://georgyfirsov.github.io/index.html" />
+		<link rel="alternate" href="http://georgyfirsov.github.io/index.html" hreflang="ru" />
+		<!-- Use custom styles -->
+		<link rel="stylesheet" href="./styles/textual.css" />
+		<link rel="stylesheet" href="./styles/graphical.css" />
+		<!-- MDL styles -->
+		<link rel="stylesheet" href="./styles/mdl/material.css" />
+		<!-- Title -->
+		<title>Georgy Firsov</title>
+	</head>
+	<body>
+		<!-- Bar section -->
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
@@ -46,31 +37,30 @@
 					<!-- Navigation. We hide it in small screens. -->
 					<nav class="mdl-navigation mdl-layout--large-screen-only">
 						<a class="mdl-navigation__link" href="./index.html">
-							<span lang="ru">Главная</span>
-							<span lang="en">Main</span>
+						<span lang="ru">Главная</span>
+						<span lang="en">Main</span>
 						</a>
 						<a class="mdl-navigation__link" href="./about.html">
-							<span lang="ru">Обо мне</span>
-							<span lang="en">About</span>
+						<span lang="ru">Обо мне</span>
+						<span lang="en">About</span>
 						</a>
 					</nav>
 				</div>
-		    </header>
+			</header>
 			<div class="mdl-layout__drawer">
 				<span class="mdl-layout-title">Georgy Firsov</span>
 				<nav class="mdl-navigation">
 					<a class="mdl-navigation__link" href="./index.html">
-						<span lang="ru">Главная</span>
-						<span lang="en">Main</span>
+					<span lang="ru">Главная</span>
+					<span lang="en">Main</span>
 					</a>
 					<a class="mdl-navigation__link" href="./about.html">
-						<span lang="ru">Обо мне</span>
-						<span lang="en">About</span>
+					<span lang="ru">Обо мне</span>
+					<span lang="en">About</span>
 					</a>
 				</nav>
 			</div>
 		</div>
-		
 		<!-- Split the page into two columns -->
 		<div class="row">
 			<!-- Main column with articles and projects -->
@@ -80,7 +70,6 @@
 					<div class="articles">
 						<h1 class="header-text" lang="ru">Статьи и блог:</h1>
 						<h1 class="header-text" lang="en">Articles and blog:</h1>
-						
 						<!-- List of articles -->
 						<div class="article">
 							<span class="label label-info">C++</span>
@@ -90,7 +79,6 @@
 							<span lang="ru"> - статья на тему статической рефлексии в C++14. Разбирается техника внедрения friend-функции</span>
 							<span lang="en"> - continuation of static reflection in C++14 topic. Here I describe friend function injection technique</span>
 						</div>
-						
 						<div class="article">
 							<span class="label label-info">C++</span>
 							<span class="label label-primary">FuncProg</span>
@@ -99,7 +87,6 @@
 							<span lang="ru"> - статья-описание реализации pattern matching в С++14</span>
 							<span lang="en"> - article-description of pattern matching implementation in С++14</span>
 						</div>
-						
 						<div class="article">
 							<span class="label label-info">C++</span>
 							<span class="label label-primary">Metaprogramming</span>
@@ -109,78 +96,65 @@
 							<span lang="en"> - in this article I explain some points in implementation of static reflection in C++14</span>
 						</div>
 					</div>
-					
 					<!-- Projects section -->
 					<div class="projects">
 						<h1 class="header-text" lang="ru">Мои проекты:</h1>
 						<h1 class="header-text" lang="en">My projects:</h1>
-					
 						<div class="row">
 							<div class="col">
 								<img src="./img/CppLogo.png" alt="Логотип C++" width="140" height="157">
 								<h2 lang="ru">Проекты, написанные на C++</h2>
 								<h2 lang="en">C++ projects</h2>
-								
 								<div class="project">
 									<a href="https://georgyfirsov.github.io/PodSerializer/">PodSerializer</a>
 									<span lang="ru"> - универсальный сериализатор POD-структур и некоторого множества не POD типов.</span>
 									<span lang="en"> - universal POD (and some non-POD types) serializer implemented in С++.</span>
 								</div>
-								
 								<div class="project">
 									<a href="https://georgyfirsov.github.io/PatternMatching/">PatternMatching</a>
 									<span lang="ru"> - библиотека, реализующая принцип pattern matching для выбора подходящего функтора на этапе компиляции.</span>
 									<span lang="en"> - library for choosing correct callable in compile time using pattern matching.</span>
 								</div>
-								
 								<div class="project">
 									<a href="https://georgyfirsov.github.io/AsyncNotifications/">AsyncNotifications</a>
 									<span lang="ru">- приложение, реализующее концепцию Клиент-Сервер с подпиской на уведомления.</span>
 									<span lang="en">- client-server conception with subscription on notifications.</span>
 								</div>
-								
 								<div class="project">
 									<a href="https://georgyfirsov.github.io/DllHandler/">DllHandler</a>
 									<span lang="ru">- RAII-обёртка для динамических библиотек Windows. Поддерживается возможность создания класса-обёртки для конкретных библиотек.</span>
 									<span lang="en">- RAII-wrapper for dynamic link libraries in Windows.</span>
 								</div>
-								
 								<div class="project">
 									<a href="https://georgyfirsov.github.io/FastReader/">FastReader</a>
 									<span lang="ru">- класс, предоставляющий интерфейс для чтения файлов с помощью проецирования файла в память.</span>
 									<span lang="en">- class that provides fast file reading with memory mapping.</span>
 								</div>
 							</div>
-							
 							<div class="col">
 								<img src="./img/PythonLogo.png" alt="Логотип Python" width="157" height="157">
 								<h2 lang="ru">Проекты, написанные на Python</h2>
 								<h2 lang="en">Python projects</h2>
-								
 								<div class="project">
 									<a href="https://georgyfirsov.github.io/Decrypt/">Decrypt</a>
 									<span lang="ru">- исследование возможности классификации зашифрованных слов по шифру.</span>
 									<span lang="en">- my research about classification of encrypted words.</span>
 								</div>
-								
 								<div class="project">
 									<a href="https://georgyfirsov.github.io/News/">News</a>
 									<span lang="ru"> - программа (и Flask-сервер) для предсказания курса акций на ближайшие 2-3 дня.</span>
 									<span lang="en"> - stocks forecasting application (and Flask-server).</span>
 								</div>
-								
 								<div class="project">
 									<a href="https://georgyfirsov.github.io/jParser/">jParser</a>
 									<span lang="ru"> - простой парсер формата JSON.</span>
 									<span lang="en"> - simple JSON parser.</span>
 								</div>
 							</div>
-							
 							<div class="col">
 								<img src="./img/Pending.png" alt="В разработке" width="157" height="157">
 								<h2 lang="ru">Проекты, находящиеся в разработке</h2>
 								<h2 lang="en">Projects at developing stage</h2>
-								
 								<div class="project">
 									<a href="https://georgyfirsov.github.io/MachineLearningModels/">MachineLearningModels</a>
 									<span lang="ru">- реализация алгоритмов машинного обучения на Python. Находится на стадии реализации.</span>
@@ -191,25 +165,22 @@
 					</div>
 				</div>
 			</div>
-			
 			<!-- Utility column with site settings and contacts -->
 			<div class="col_utility">
 				<div class="mdl-card-wide mdl-shadow--4dp">
 					<!-- Menu -->
 					<div class="menu">
 						<button class="mdl-button mdl-button--primary" onclick="setLang('ru'); return false">
-							<a class="no-underline" href="#" hreflang="ru" onclick="setLang('ru'); return false">Русский</a>
+						<a class="no-underline" href="#" hreflang="ru" onclick="setLang('ru'); return false">Русский</a>
 						</button>
 						<button class="mdl-button mdl-button--primary" onclick="setLang('en'); return false">
-							<a class="no-underline" href="#" hreflang="en" onclick="setLang('en'); return false">English</a>
+						<a class="no-underline" href="#" hreflang="en" onclick="setLang('en'); return false">English</a>
 						</button>
 					</div>
-				
 					<!-- Contacts section -->
 					<div class="contacts">
 						<h1 class="header-text" lang="ru">Контакты:</h1>
 						<h1 class="header-text" lang="en">Contacts:</h1>
-						
 						<span lang="ru">Меня можно найти тут:</span>
 						<span lang="en">You can fing me here:</span>
 						<p>
@@ -223,15 +194,12 @@
 				</div>
 			</div>
 		</div>
-        
-        <!-- Footer -->
-        <footer  class="mdl-mini-footer">
+		<!-- Footer -->
+		<footer  class="mdl-mini-footer">
 			<div class="mdl-mini-footer__left-section">
 				<div class="mdl-logo" lang="ru">© 2019-2020 Фирсов Георгий</div>
 				<div class="mdl-logo" lang="en">© 2019-2020 Firsov Georgy</div>
 			</div>
-        </footer>
-        
-    </body>
-    
+		</footer>
+	</body>
 </html>
