@@ -4,11 +4,13 @@
  
 /* Style for headers */
 .header-text {
-    font-family: "Arial";
+    font-family: Roboto, sans-serif;
     font-size: 30px;
-    color: #20639B;
+    color: #212121;
 }
- 
+
+.link {
+  font-weight: bold; }
 
 /* Footer text's style */
 .footer-text {
@@ -50,4 +52,8 @@
 
 .p {
 	margin-bottom:1.5em
+}
+
+.no-underline {
+	text-decoration: none;
 }

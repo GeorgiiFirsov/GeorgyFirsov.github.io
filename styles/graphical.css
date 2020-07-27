@@ -29,6 +29,10 @@
     text-align: center;
 }
 
+.menu-item {
+	
+}
+
 .button {
     background-color: black;
 	border: none;
@@ -45,13 +49,13 @@
 }
 
 .language-button {
-    background-color: white;
+    background-color: #fbfbfb;
     color: black;
-	border: 2px solid #173F5F;
+	border: 2px solid #3F51B5;
 	border-radius: 4px;
 }
 .language-button:hover {
-    background-color: #173F5F;
+    background-color: #3F51B5;
     color: white;
 }
 
@@ -78,11 +82,11 @@
 }
 
 .col_main {
-    width: 100%;
+	margin: 10px 10px 10px 10px;
 }
 
 .col_utility {
-    width: 100%;
+	margin: 10px 10px 10px 10px;
 }
 
 @media screen and (min-width: 100px) {
@@ -109,11 +113,11 @@
     }
     
     .col_main {
-        width: 84%;
+        width: 80%;
     }
 
     .col_utility {
-        width: 14%;
+        width: 20%;
     }
 }
 
