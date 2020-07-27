@@ -4222,7 +4222,7 @@ input.mdl-button[type="submit"] {
   font-weight: 400;
   min-height: 200px;
   overflow: hidden;
-  padding: 14px 30px 18px 30px;
+  padding: 14px 30px 14px 30px;
   z-index: 1;
   position: relative;
   background: rgb(255,255,255);
