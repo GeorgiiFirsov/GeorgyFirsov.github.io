@@ -1,0 +1,359 @@
+<head>
+    <link crossorigin="anonymous" media="all" integrity="sha512-ZUjVod2EvYMDbGqRSyW0rpfgBq3i+gnR/4PfrzLsy5f20oIcRfgFQFVKgi3Ztp917bP1K/kdP5q8+nAlJ3+cFA==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-6548d5a1dd84bd83036c6a914b25b4ae.css">
+    <link crossorigin="anonymous" media="all" integrity="sha512-XmTo0DwOmwnCCrr0uMQYHfL0M3TneI8YPYYv8+0eJv3kGfvWqdlZ4RuNXMdYX3ZkPBtdPZlh4pOA9F4FkwV/qw==" rel="stylesheet" href="https://github.githubassets.com/assets/github-5e64e8d03c0e9b09c20abaf4b8c4181d.css">
+</head>
+<body>
+    <div id="readme" class="Box-body readme blob js-code-block-container p-5 p-xl-6 gist-border-0">
+        <article class="markdown-body entry-content container-lg" itemprop="text">
+            <h2>
+                <a id="user-content-spb-ctf-leaked-code-task-solution" class="anchor" aria-hidden="true" href="#spb-ctf-leaked-code-task-solution">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                    </svg>
+                </a>
+                SPB CTF Leaked Code task solution
+            </h2>
+            <p>In this article I want to describe a solution of a quite simple CTF task. Here it is:</p>
+            <blockquote>
+                <p>During internal pentest we've been able to make a photo of security engineer's computer screen.
+                    It seems that he is reverse engineering his employer's internal access system algorithms. Can you help us get a valid access code?
+                </p>
+            </blockquote>
+            <p>There were some files attached to the task. One and the only necessary was a text file with following content (but without line numbers):</p>
+            <div class="highlight highlight-source-java">
+                <pre><span class="pl-c1">1.</span>	<span class="pl-c1">DEFINE</span> <span class="pl-c1">PUBLIC</span> <span class="pl-c1">STATIC</span> main([<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>; args)<span class="pl-smi">V</span>
+<span class="pl-c1">2.</span>	<span class="pl-smi">A</span><span class="pl-k">:</span>
+<span class="pl-c1">3.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">A</span> <span class="pl-c1">7</span>
+<span class="pl-c1">4.</span>	<span class="pl-c1">GETSTATIC</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">System</span><span class="pl-k">.</span>out <span class="pl-smi">Ljava</span><span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span>;
+<span class="pl-c1">5.</span>	<span class="pl-c1">LDC</span> <span class="pl-s"><span class="pl-pds">"</span>Enter access code : <span class="pl-pds">"</span></span>
+<span class="pl-c1">6.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span><span class="pl-k">.</span>print(<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>;)<span class="pl-smi">V</span>
+<span class="pl-c1">7.</span>	<span class="pl-smi">B</span><span class="pl-k">:</span>
+<span class="pl-c1">8.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">B</span> <span class="pl-c1">8</span>
+<span class="pl-c1">9.</span>	<span class="pl-c1">NEW</span> java<span class="pl-k">/</span>util<span class="pl-k">/</span><span class="pl-smi">Scanner</span>
+<span class="pl-c1">10.</span>	<span class="pl-c1">DUP</span>
+<span class="pl-c1">11.</span>	<span class="pl-c1">GETSTATIC</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">System</span><span class="pl-k">.</span>in <span class="pl-smi">Ljava</span><span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">InputStream</span>;
+<span class="pl-c1">12.</span>	<span class="pl-c1">INVOKESPECIAL</span> java<span class="pl-k">/</span>util<span class="pl-k">/</span><span class="pl-smi">Scanner</span><span class="pl-k">.</span><span class="pl-k">&lt;</span>init<span class="pl-k">&gt;</span>(<span class="pl-smi">Ljava</span><span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">InputStream</span>;)<span class="pl-smi">V</span>
+<span class="pl-c1">13.</span>	<span class="pl-c1">ASTORE</span> scanner
+<span class="pl-c1">14.</span>	<span class="pl-smi">C</span><span class="pl-k">:</span>
+<span class="pl-c1">15.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">C</span> <span class="pl-c1">9</span>
+<span class="pl-c1">16.</span>	<span class="pl-c1">ALOAD</span> scanner
+<span class="pl-c1">17.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>util<span class="pl-k">/</span><span class="pl-smi">Scanner</span><span class="pl-k">.</span>nextLine()<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>;
+<span class="pl-c1">18.</span>	<span class="pl-c1">ASTORE</span> access_code
+<span class="pl-c1">19.</span>	<span class="pl-smi">D</span><span class="pl-k">:</span>
+<span class="pl-c1">20.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">D</span> <span class="pl-c1">10</span>
+<span class="pl-c1">21.</span>	<span class="pl-c1">LDC</span> <span class="pl-s"><span class="pl-pds">"</span>abcdefghijklmnopqrstuvwxyz_!@<span class="pl-pds">"</span></span>
+<span class="pl-c1">22.</span>	<span class="pl-c1">ASTORE</span> alphabet
+<span class="pl-c1">23.</span>	<span class="pl-smi">E</span><span class="pl-k">:</span>
+<span class="pl-c1">24.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">E</span> <span class="pl-c1">11</span>
+<span class="pl-c1">25.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">26.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>length()<span class="pl-smi">I</span>
+<span class="pl-c1">27.</span>	<span class="pl-c1">BIPUSH</span> <span class="pl-c1">24</span>
+<span class="pl-c1">28.</span>	<span class="pl-c1">IF_ICMPEQ</span> <span class="pl-smi">H</span>
+<span class="pl-c1">29.</span>	<span class="pl-smi">F</span><span class="pl-k">:</span>
+<span class="pl-c1">30.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">F</span> <span class="pl-c1">12</span>
+<span class="pl-c1">31.</span>	<span class="pl-c1">GETSTATIC</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">System</span><span class="pl-k">.</span>out <span class="pl-smi">Ljava</span><span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span>;
+<span class="pl-c1">32.</span>	<span class="pl-c1">LDC</span> <span class="pl-s"><span class="pl-pds">"</span>Nope!<span class="pl-pds">"</span></span>
+<span class="pl-c1">33.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span><span class="pl-k">.</span>println(<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>;)<span class="pl-smi">V</span>
+<span class="pl-c1">34.</span>	<span class="pl-smi">G</span><span class="pl-k">:</span>
+<span class="pl-c1">35.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">G</span> <span class="pl-c1">13</span>
+<span class="pl-c1">36.</span>	<span class="pl-c1">RETURN</span>
+<span class="pl-c1">37.</span>	<span class="pl-smi">H</span><span class="pl-k">:</span>
+<span class="pl-c1">38.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">H</span> <span class="pl-c1">15</span>
+<span class="pl-c1">39.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">40.</span>	<span class="pl-c1">LDC</span> <span class="pl-s"><span class="pl-pds">"</span>spbctf{<span class="pl-pds">"</span></span>
+<span class="pl-c1">41.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>startsWith(<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>;)<span class="pl-smi">Z</span>
+<span class="pl-c1">42.</span>	<span class="pl-c1">IFEQ</span> <span class="pl-smi">I</span>
+<span class="pl-c1">43.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">44.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">45.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>length()<span class="pl-smi">I</span>
+<span class="pl-c1">46.</span>	<span class="pl-c1">ICONST_1</span>
+<span class="pl-c1">47.</span>	<span class="pl-c1">ISUB</span>
+<span class="pl-c1">48.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>codePointAt(<span class="pl-smi">I</span>)<span class="pl-smi">I</span>
+<span class="pl-c1">49.</span>	<span class="pl-c1">BIPUSH</span> <span class="pl-c1">125</span>
+<span class="pl-c1">50.</span>	<span class="pl-c1">IF_ICMPEQ</span> <span class="pl-smi">K</span>
+<span class="pl-c1">51.</span>	<span class="pl-smi">I</span><span class="pl-k">:</span>
+<span class="pl-c1">52.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">I</span> <span class="pl-c1">16</span>
+<span class="pl-c1">53.</span>	<span class="pl-c1">GETSTATIC</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">System</span><span class="pl-k">.</span>out <span class="pl-smi">Ljava</span><span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span>;
+<span class="pl-c1">54.</span>	<span class="pl-c1">LDC</span> <span class="pl-s"><span class="pl-pds">"</span>Nope!<span class="pl-pds">"</span></span>
+<span class="pl-c1">55.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span><span class="pl-k">.</span>println(<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>;)<span class="pl-smi">V</span>
+<span class="pl-c1">56.</span>	<span class="pl-smi">J</span><span class="pl-k">:</span>
+<span class="pl-c1">57.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">J</span> <span class="pl-c1">17</span>
+<span class="pl-c1">58.</span>	<span class="pl-c1">RETURN</span>
+<span class="pl-c1">59.</span>	<span class="pl-smi">K</span><span class="pl-k">:</span>
+<span class="pl-c1">60.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">K</span> <span class="pl-c1">19</span>
+<span class="pl-c1">61.</span>	<span class="pl-c1">ICONST_5</span>
+<span class="pl-c1">62.</span>	<span class="pl-c1">ISTORE</span> seed
+<span class="pl-c1">63.</span>	<span class="pl-smi">L</span><span class="pl-k">:</span>
+<span class="pl-c1">64.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">L</span> <span class="pl-c1">20</span>
+<span class="pl-c1">65.</span>	<span class="pl-c1">BIPUSH</span> <span class="pl-c1">7</span>
+<span class="pl-c1">66.</span>	<span class="pl-c1">ISTORE</span> i
+<span class="pl-c1">67.</span>	<span class="pl-smi">M</span><span class="pl-k">:</span>
+<span class="pl-c1">68.</span>	<span class="pl-c1">ILOAD</span> i
+<span class="pl-c1">69.</span>	<span class="pl-c1">BIPUSH</span> <span class="pl-c1">23</span>
+<span class="pl-c1">70.</span>	<span class="pl-c1">IF_ICMPGE</span> <span class="pl-smi">S</span>
+<span class="pl-c1">71.</span>	<span class="pl-smi">N</span><span class="pl-k">:</span>
+<span class="pl-c1">72.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">N</span> <span class="pl-c1">21</span>
+<span class="pl-c1">73.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">74.</span>	<span class="pl-c1">ILOAD</span> i
+<span class="pl-c1">75.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>codePointAt(<span class="pl-smi">I</span>)<span class="pl-smi">I</span>
+<span class="pl-c1">76.</span>	<span class="pl-c1">ALOAD</span> alphabet
+<span class="pl-c1">77.</span>	<span class="pl-c1">ILOAD</span> seed
+<span class="pl-c1">78.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>codePointAt(<span class="pl-smi">I</span>)<span class="pl-smi">I</span>
+<span class="pl-c1">79.</span>	<span class="pl-c1">IF_ICMPEQ</span> <span class="pl-smi">Q</span>
+<span class="pl-c1">80.</span>	<span class="pl-smi">O</span><span class="pl-k">:</span>
+<span class="pl-c1">81.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">O</span> <span class="pl-c1">22</span>
+<span class="pl-c1">82.</span>	<span class="pl-c1">GETSTATIC</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">System</span><span class="pl-k">.</span>out <span class="pl-smi">Ljava</span><span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span>;
+<span class="pl-c1">83.</span>	<span class="pl-c1">LDC</span> <span class="pl-s"><span class="pl-pds">"</span>Nope!<span class="pl-pds">"</span></span>
+<span class="pl-c1">84.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span><span class="pl-k">.</span>println(<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>;)<span class="pl-smi">V</span>
+<span class="pl-c1">85.</span>	<span class="pl-smi">P</span><span class="pl-k">:</span>
+<span class="pl-c1">86.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">P</span> <span class="pl-c1">23</span>
+<span class="pl-c1">87.</span>	<span class="pl-c1">RETURN</span>
+<span class="pl-c1">88.</span>	<span class="pl-smi">Q</span><span class="pl-k">:</span>
+<span class="pl-c1">89.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">Q</span> <span class="pl-c1">25</span>
+<span class="pl-c1">90.</span>	<span class="pl-c1">ILOAD</span> seed
+<span class="pl-c1">91.</span>	<span class="pl-c1">ICONST_3</span>
+<span class="pl-c1">92.</span>	<span class="pl-c1">IMUL</span>
+<span class="pl-c1">93.</span>	<span class="pl-c1">ALOAD</span> alphabet
+<span class="pl-c1">94.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>length()<span class="pl-smi">I</span>
+<span class="pl-c1">95.</span>	<span class="pl-c1">IREM</span>
+<span class="pl-c1">96.</span>	<span class="pl-c1">ISTORE</span> seed
+<span class="pl-c1">97.</span>	<span class="pl-smi">R</span><span class="pl-k">:</span>
+<span class="pl-c1">98.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">R</span> <span class="pl-c1">20</span>
+<span class="pl-c1">99.</span>	<span class="pl-c1">IINC</span> i <span class="pl-c1">1</span>
+<span class="pl-c1">100.</span>	<span class="pl-c1">GOTO</span> <span class="pl-smi">M</span>
+<span class="pl-c1">101.</span>	<span class="pl-smi">S</span><span class="pl-k">:</span>
+<span class="pl-c1">102.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">S</span> <span class="pl-c1">27</span>
+<span class="pl-c1">103.</span>	<span class="pl-c1">GETSTATIC</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">System</span><span class="pl-k">.</span>out <span class="pl-smi">Ljava</span><span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span>;
+<span class="pl-c1">104.</span>	<span class="pl-c1">LDC</span> <span class="pl-s"><span class="pl-pds">"</span>Access granted!<span class="pl-pds">"</span></span>
+<span class="pl-c1">105.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span><span class="pl-k">.</span>println(<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>;)<span class="pl-smi">V</span>
+<span class="pl-c1">106.</span>	<span class="pl-smi">T</span><span class="pl-k">:</span>
+<span class="pl-c1">107.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">T</span> <span class="pl-c1">28</span>
+<span class="pl-c1">108.</span>	<span class="pl-c1">RETURN</span>
+<span class="pl-c1">109.</span>	<span class="pl-smi">U</span><span class="pl-k">:</span></pre>
+            </div>
+            <p>It is a part of some Java application in human-readable bytecode view. Let's analyze it a bit.
+                Firstly, we can see a line with number 104 with a string <code>LDC "Access granted!"</code>. It is a block
+                of code which we reach in case of successful parameter check. This parameter is typed by a user
+                at lines 7-14 (there you can see an input sream initialization, access code request and storing
+                this code into a variable <code>access_code</code>.
+            </p>
+            <p>So, let's continue! The line with a number 104 is located in block denoted with a label <code>S</code>. The
+                only way to reach label <code>S</code> is to make a variable <code>i</code> to be equal or greater than 23 at line 70.
+                Here is a code:
+            </p>
+            <div class="highlight highlight-source-java">
+                <pre><span class="pl-c1">67.</span>	<span class="pl-smi">M</span><span class="pl-k">:</span>
+<span class="pl-c1">68.</span>	<span class="pl-c1">ILOAD</span> i
+<span class="pl-c1">69.</span>	<span class="pl-c1">BIPUSH</span> <span class="pl-c1">23</span>
+<span class="pl-c1">70.</span>	<span class="pl-c1">IF_ICMPGE</span> <span class="pl-smi">S</span></pre>
+            </div>
+            <p>Looking closely you can notice a 100'th line with an instruction <code>GOTO M</code>. Actually it is a loop,
+                just because right before unconditional jump the variable <code>i</code> was incremented by one. According to
+                the task we can assume that our access code is checked in this loop symbol-by-symbol.
+            </p>
+            <p>But firstly, how we can reach this loop in our execution flow? It is not quite difficult to notice that
+                the loop actually begins at the 63'th line (label <code>L</code>). There is no conditional nor unconditional jumps
+                to this label, so the previous label <code>K</code> must be reached before the VM executes an instructions at
+                the label <code>L</code>. The previous to <code>K</code> label denotes an exit of application, so there must be some branch
+                to <code>K</code>. It can be found at the 50. Line 50 ends a first simple check, that was started at the line 23:
+            </p>
+            <div class="highlight highlight-source-java">
+                <pre><span class="pl-c1">23.</span>	<span class="pl-smi">E</span><span class="pl-k">:</span>
+<span class="pl-c1">24.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">E</span> <span class="pl-c1">11</span>
+<span class="pl-c1">25.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">26.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>length()<span class="pl-smi">I</span>
+<span class="pl-c1">27.</span>	<span class="pl-c1">BIPUSH</span> <span class="pl-c1">24</span>
+<span class="pl-c1">28.</span>	<span class="pl-c1">IF_ICMPEQ</span> <span class="pl-smi">H</span>
+<span class="pl-c1">29.</span>	<span class="pl-smi">F</span><span class="pl-k">:</span>
+<span class="pl-c1">30.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">F</span> <span class="pl-c1">12</span>
+<span class="pl-c1">31.</span>	<span class="pl-c1">GETSTATIC</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">System</span><span class="pl-k">.</span>out <span class="pl-smi">Ljava</span><span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span>;
+<span class="pl-c1">32.</span>	<span class="pl-c1">LDC</span> <span class="pl-s"><span class="pl-pds">"</span>Nope!<span class="pl-pds">"</span></span>
+<span class="pl-c1">33.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>io<span class="pl-k">/</span><span class="pl-smi">PrintStream</span><span class="pl-k">.</span>println(<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>;)<span class="pl-smi">V</span>
+<span class="pl-c1">34.</span>	<span class="pl-smi">G</span><span class="pl-k">:</span>
+<span class="pl-c1">35.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">G</span> <span class="pl-c1">13</span>
+<span class="pl-c1">36.</span>	<span class="pl-c1">RETURN</span>
+<span class="pl-c1">37.</span>	<span class="pl-smi">H</span><span class="pl-k">:</span>
+<span class="pl-c1">38.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">H</span> <span class="pl-c1">15</span>
+<span class="pl-c1">39.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">40.</span>	<span class="pl-c1">LDC</span> <span class="pl-s"><span class="pl-pds">"</span>spbctf{<span class="pl-pds">"</span></span>
+<span class="pl-c1">41.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>startsWith(<span class="pl-smi">Ljava</span><span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span>;)<span class="pl-smi">Z</span>
+<span class="pl-c1">42.</span>	<span class="pl-c1">IFEQ</span> <span class="pl-smi">I</span>
+<span class="pl-c1">43.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">44.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">45.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>length()<span class="pl-smi">I</span>
+<span class="pl-c1">46.</span>	<span class="pl-c1">ICONST_1</span>
+<span class="pl-c1">47.</span>	<span class="pl-c1">ISUB</span>
+<span class="pl-c1">48.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>codePointAt(<span class="pl-smi">I</span>)<span class="pl-smi">I</span>
+<span class="pl-c1">49.</span>	<span class="pl-c1">BIPUSH</span> <span class="pl-c1">125</span>
+<span class="pl-c1">50.</span>	<span class="pl-c1">IF_ICMPEQ</span> <span class="pl-smi">K</span></pre>
+            </div>
+            <p>Let me explain what is going on here: lines 25-26 contain a call of virtual method <code>String.length()</code>
+                on a reference to the variable <code>access_code</code>. The result is pushed onto the stack. Than this value is
+                compared to 24 in lines 27-28. In ase of equality we jump to the label <code>H</code>. Otherwise the check fails.
+                Then it is simple to notice, that the method <code>String.startsWith()</code> was called on the reference to the
+                <code>access_code</code> variable. It checks if it starts with <code>"spbctf{"</code>. This call can be found in lines 39-41.
+                In case of negative result the check fails - we jupm to the label <code>I</code> which ends the exectution.
+                Otherwise the last symbol of <code>access_code</code> is compared to <code>}</code>: at lines 44-47 an index of the last symbol
+                is calculated by calling <code>String.lenght()</code> and subtracting 1 from it. This index is stored in variable
+                <code>I</code> and used to get a code of the last symbol in <code>access_code</code> by calling <code>String.codePointAt()</code> that
+                pushes its result into the stack, than we push the value 125 (ASCII code of <code>}</code>) onto the stack. In case
+                of equality we finally jump to the label <code>K</code> which starts our loop initialization.
+            </p>
+            <p>The initialization is quite simple:</p>
+            <div class="highlight highlight-source-java">
+                <pre><span class="pl-c1">59.</span>	<span class="pl-smi">K</span><span class="pl-k">:</span>
+<span class="pl-c1">60.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">K</span> <span class="pl-c1">19</span>
+<span class="pl-c1">61.</span>	<span class="pl-c1">ICONST_5</span>
+<span class="pl-c1">62.</span>	<span class="pl-c1">ISTORE</span> seed
+<span class="pl-c1">63.</span>	<span class="pl-smi">L</span><span class="pl-k">:</span>
+<span class="pl-c1">64.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">L</span> <span class="pl-c1">20</span>
+<span class="pl-c1">65.</span>	<span class="pl-c1">BIPUSH</span> <span class="pl-c1">7</span>
+<span class="pl-c1">66.</span>	<span class="pl-c1">ISTORE</span> i</pre>
+            </div>
+            <p>We set the value 5 to a new variable <code>seed</code> and the value 7 to a loop index <code>i</code>. The loop starts with
+                a comparison of our loop index to 23:
+            </p>
+            <div class="highlight highlight-source-java">
+                <pre><span class="pl-c1">67.</span>	<span class="pl-smi">M</span><span class="pl-k">:</span>
+<span class="pl-c1">68.</span>	<span class="pl-c1">ILOAD</span> i
+<span class="pl-c1">69.</span>	<span class="pl-c1">BIPUSH</span> <span class="pl-c1">23</span>
+<span class="pl-c1">70.</span>	<span class="pl-c1">IF_ICMPGE</span> <span class="pl-smi">S</span></pre>
+            </div>
+            <p>When the index is less than 23 we start to compare <code>access_code</code> symbols to the correct ones:</p>
+            <div class="highlight highlight-source-java">
+                <pre><span class="pl-c1">71.</span>	<span class="pl-smi">N</span><span class="pl-k">:</span>
+<span class="pl-c1">72.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">N</span> <span class="pl-c1">21</span>
+<span class="pl-c1">73.</span>	<span class="pl-c1">ALOAD</span> access_code
+<span class="pl-c1">74.</span>	<span class="pl-c1">ILOAD</span> i
+<span class="pl-c1">75.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>codePointAt(<span class="pl-smi">I</span>)<span class="pl-smi">I</span>
+<span class="pl-c1">76.</span>	<span class="pl-c1">ALOAD</span> alphabet
+<span class="pl-c1">77.</span>	<span class="pl-c1">ILOAD</span> seed
+<span class="pl-c1">78.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>codePointAt(<span class="pl-smi">I</span>)<span class="pl-smi">I</span>
+<span class="pl-c1">79.</span>	<span class="pl-c1">IF_ICMPEQ</span> <span class="pl-smi">Q</span></pre>
+            </div>
+            <p>At lines 73-75 we get the i'th symbol from <code>access_code</code> and a seed'th symbol from <code>alphabet</code>. <code>alphabet</code>
+                is a simple string <code>abcdefghijklmnopqrstuvwxyz_!@</code> created at lines 21-22. In case of equality we jump
+                to the label <code>Q</code>, otherwise the check fails and the program stops. Label <code>Q</code> is a place where <code>i</code> and
+                <code>seed</code> are modified:
+            </p>
+            <div class="highlight highlight-source-java">
+                <pre><span class="pl-c1">88.</span>	<span class="pl-smi">Q</span><span class="pl-k">:</span>
+<span class="pl-c1">89.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">Q</span> <span class="pl-c1">25</span>
+<span class="pl-c1">90.</span>	<span class="pl-c1">ILOAD</span> seed
+<span class="pl-c1">91.</span>	<span class="pl-c1">ICONST_3</span>
+<span class="pl-c1">92.</span>	<span class="pl-c1">IMUL</span>
+<span class="pl-c1">93.</span>	<span class="pl-c1">ALOAD</span> alphabet
+<span class="pl-c1">94.</span>	<span class="pl-c1">INVOKEVIRTUAL</span> java<span class="pl-k">/</span>lang<span class="pl-k">/</span><span class="pl-smi">String</span><span class="pl-k">.</span>length()<span class="pl-smi">I</span>
+<span class="pl-c1">95.</span>	<span class="pl-c1">IREM</span>
+<span class="pl-c1">96.</span>	<span class="pl-c1">ISTORE</span> seed
+<span class="pl-c1">97.</span>	<span class="pl-smi">R</span><span class="pl-k">:</span>
+<span class="pl-c1">98.</span>	<span class="pl-c1">LINE</span> <span class="pl-smi">R</span> <span class="pl-c1">20</span>
+<span class="pl-c1">99.</span>	<span class="pl-c1">IINC</span> i <span class="pl-c1">1</span>
+<span class="pl-c1">100.</span>	<span class="pl-c1">GOTO</span> <span class="pl-smi">M</span></pre>
+            </div>
+            <p>Let's see how it happens. We put <code>seed</code>(line 90) and a constant 3 (line 91) onto the stack, than they are
+                multiplied (line 92), the result is stored on the top of the stack. Then the length of the <code>alphabet</code> is
+                calculated (lines 93-94). Right after that the remainder of division triple <code>seed</code> by the <code>alphabet</code>'s length
+                is calculated. This remainder is assumed to be the new value of <code>seed</code>. After that <code>i</code> is incremented (line 99)
+                and unconfitional jump to the label <code>M</code> is happened.
+            </p>
+            <p>As said before, we know initial values of <code>i</code> and <code>seed</code>, so we can calculate the right symbols in <code>alphabet</code>
+                on each iteration, it can be written as a table:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>i</th>
+                        <th>seed</th>
+                        <th>symbol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>7</td>
+                        <td>5</td>
+                        <td><code>f</code></td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>15</td>
+                        <td><code>p</code></td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>16</td>
+                        <td><code>q</code></td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>19</td>
+                        <td><code>t</code></td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>28</td>
+                        <td><code>@</code></td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>26</td>
+                        <td><code>_</code></td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>20</td>
+                        <td><code>u</code></td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td>2</td>
+                        <td><code>c</code></td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td>6</td>
+                        <td><code>g</code></td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td>18</td>
+                        <td><code>s</code></td>
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td>25</td>
+                        <td><code>z</code></td>
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td>17</td>
+                        <td><code>r</code></td>
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td>22</td>
+                        <td><code>w</code></td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td>8</td>
+                        <td><code>i</code></td>
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td>24</td>
+                        <td><code>y</code></td>
+                    </tr>
+                    <tr>
+                        <td>22</td>
+                        <td>14</td>
+                        <td><code>o</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Finally we got a flag! The answer is <code>spbctf{fpqt@_ucgszrwiyo}</code> (don't forget about the initial check of the last and the first 7 symbols)</p>
+            <hr>
+            <p>Author: Georgy Firsov. 2020</p>
+        </article>
+    </div>
+</body>
