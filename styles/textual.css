@@ -54,10 +54,11 @@
 
 .article a {
 	font-weight: bold;
+    line-height: 2em;
 }
 
 .p {
-	margin-bottom:1.5em
+	margin-bottom: 1.5em
 }
 
 .no-underline {
