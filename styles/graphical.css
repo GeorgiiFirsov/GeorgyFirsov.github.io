@@ -25,6 +25,13 @@
 	text-align: justify;
 }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
 .language-selector {
     text-align: center;
 }
@@ -91,13 +98,18 @@
 	margin: 10px 10px 10px 10px;
 }
 
+.small-row {}
+.small-col-logo {}
+.small-col-content {}
+
 @media screen and (min-width: 100px) {
 	.subcol {
         padding: 5px;
 	}
 }
 
-@media screen and (min-width: 800px) {
+/* Desktop */
+@media screen and (min-width: 1100px) {
     .row {
         display: flex;
     }
@@ -120,6 +132,23 @@
 
     .col_utility {
         width: 20%;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .small-row {
+        display: flex;
+        align-items: center;
+    }
+    
+    .small-col-logo {
+        flex: 20%;
+        padding-right: 0.5em;
+    }
+    
+    .small-col-content {
+        flex: 80%;
+        padding-left: 1em;
     }
 }
 

@@ -142,87 +142,169 @@
 						<h1 class="header-text" lang="ru">Мои проекты:</h1>
 						<h1 class="header-text" lang="en">My projects:</h1>
 
+                        <!-- First column -->
 						<div class="row">
 							<div class="col">
-								<img src="./img/CppLogo.png" alt="Логотип C++" width="140" height="157">
-								<h2 lang="ru">Проекты, написанные на C++</h2>
-								<h2 lang="en">C++ projects</h2>
+								<div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/CppLogo.png" alt="Логотип C++">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/PodSerializer">PodSerializer</a>
+                                            <span lang="ru"> - C++14 библиотека для сериализации и десериализации любой POD-структуры (и некоторых не-POD типов) без вмешательсятва в код данных структур. Здесь много шаблонов и прочей магии мата-программирования :)</span>
+                                            <span lang="en"> - C++14 library used to serialize and deserialize any POD-structure (and some non-POD structs) with no modifications applied to them. Here I use a lot of templates and other meta-magic :)</span>
+                                        </div>
+                                    </div>
+								</div>
+                                
+                                <div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/HaskellLogo.png" alt="Логотип Haskell">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/L">L</a>
+                                            <span lang="ru"> - простой язык программирования, написанный на Haskell. Для синтаксического анализа применяются парсер-комбинаторы. Идея разработать данный язык пришла ко мне после написания статьи о парсер-комбинаторах.</span>
+                                            <span lang="en"> - simple programming language written in Haskell. It uses a theory of parser combinators. The idea of developing this language came to me after writing an article about parser combinators.</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/PodSerializer/">PodSerializer</a>
-									<span lang="ru"> - универсальный сериализатор POD-структур и некоторого множества не POD типов.</span>
-									<span lang="en"> - universal POD (and some non-POD types) serializer implemented in С++.</span>
+								<div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/CppLogo.png" alt="Логотип C++">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/AsyncNotifications/">AsyncNotifications</a>
+                                            <span lang="ru">- клиент-серверное приложение, демонстрирующее возможности асинхронных RPC вызовов Windows для решения задачи подписки на события. Помимо асинхронного RPC данное приложение использует механизм пула потоков Windows.</span>
+                                            <span lang="en">- client-server application that demonstrates some opportunities of asynchronous RPC calls in Windows to solve the task of subscription on notifications. Alongside with RPC calls this applicaion uses Windows thread pool API.</span>
+                                        </div>
+                                    </div>
 								</div>
 
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/PatternMatching/">PatternMatching</a>
-									<span lang="ru"> - библиотека, реализующая принцип pattern matching для выбора подходящего функтора на этапе компиляции.</span>
-									<span lang="en"> - library for choosing correct callable in compile time using pattern matching.</span>
-								</div>
-
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/AsyncNotifications/">AsyncNotifications</a>
-									<span lang="ru">- приложение, реализующее концепцию Клиент-Сервер с подпиской на уведомления.</span>
-									<span lang="en">- client-server conception with subscription on notifications.</span>
-								</div>
-
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/DllHandler/">DllHandler</a>
-									<span lang="ru">- RAII-обёртка для динамических библиотек Windows. Поддерживается возможность создания класса-обёртки для конкретных библиотек.</span>
-									<span lang="en">- RAII-wrapper for dynamic link libraries in Windows.</span>
-								</div>
-
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/FastReader/">FastReader</a>
-									<span lang="ru">- класс, предоставляющий интерфейс для чтения файлов с помощью проецирования файла в память.</span>
-									<span lang="en">- class that provides fast file reading with memory mapping.</span>
-								</div>
-							</div>
-
-							<div class="col">
-								<img src="./img/PythonLogo.png" alt="Логотип Python" width="157" height="157">
-								<h2 lang="ru">Проекты, написанные на Python</h2>
-								<h2 lang="en">Python projects</h2>
-
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/Decrypt/">Decrypt</a>
-									<span lang="ru">- исследование возможности классификации зашифрованных слов по шифру.</span>
-									<span lang="en">- my research about classification of encrypted words.</span>
-								</div>
-
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/News/">News</a>
-									<span lang="ru"> - программа (и Flask-сервер) для предсказания курса акций на ближайшие 2-3 дня.</span>
-									<span lang="en"> - stocks forecasting application (and Flask-server).</span>
-								</div>
-
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/jParser/">jParser</a>
-									<span lang="ru"> - простой парсер формата JSON.</span>
-									<span lang="en"> - simple JSON parser.</span>
+								<div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/CppLogo.png" alt="Логотип C++">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/FastReader/">FastReader</a>
+                                            <span lang="ru">- библиотека для быстрого чтения файлов. Написана на С++ с применением Win32 API. В качестве основного механизма данная библиотека использует проецируемые в память файлы.</span>
+                                            <span lang="en">- library for fast file reading. Written in C++ with some functions from Win32 API. The main mechanism used in this library is memory mapping that allow to read files exteremely fast.</span>
+                                        </div>
+                                    </div>
 								</div>
 							</div>
 
+                            <!-- Second column -->
 							<div class="col">
-								<img src="./img/Pending.png" alt="В разработке" width="157" height="157">
-								<h2 lang="ru">Проекты, находящиеся в разработке</h2>
-								<h2 lang="en">Projects at developing stage</h2>
-								
-								<div class="project">
-									<a href="https://github.com/GeorgyFirsov/w32coro/">w32coro</a>
-									<span lang="ru">- библиотека с реализацией корутин для C++14, основанная на использовании волокон в Win32 API.</span>
-									<span lang="en">- C++14-compatible coroutines library, based on Win32 API fibers</span>
+                                <div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/PythonLogo.png" alt="Логотип Python">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/jParser/">jParser</a>
+                                            <span lang="ru"> - простой (на самом деле не очень) парсер JSON, написанный на Python с использованием модуля PLY. Данная поделка выполнена в качестве саморазвития и лучшего понимания построения грамматрик формальных языков.</span>
+                                            <span lang="en"> - simple (actually no) JSON parser written with python's PLY module. I made this program just for fun, improvement of my knowledge and better understanding of the grammar building process.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/CppLogo.png" alt="Логотип C++">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/w32coro/">w32coro</a>
+                                            <span lang="ru">- библиотека, реализующая механизм корутин. Совместима с C++14. Основной механизм, лежащий в основе данной библиотеки, - волокна, взаимодействие с которыми построено средствами Win32 API</span>
+                                            <span lang="en">- library that implements coroutines feature. It is compatible with C++14. The main underlying technique used in this library are fibers, which are manipulated through Win32 API to manually schedule them.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+								<div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/PythonLogo.png" alt="Логотип Python">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/News/">News</a>
+                                            <span lang="ru"> - консольная утилита (а также Flask-сервер), реализующая алгоритм прогнозирования курса цен на акции крупных компаний. Прогноз дается краткосрочный.</span>
+                                            <span lang="en"> - console application (and Flask-server) that implements an algorithm of stocks prices prediction. The forecast is short-time.</span>
+                                        </div>
+                                    </div>
 								</div>
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/MachineLearningModels/">MachineLearningModels</a>
-									<span lang="ru">- реализация алгоритмов машинного обучения на Python. Находится на стадии реализации.</span>
-									<span lang="en">- implementation of machine learning algotithms in Python. At implementation stage.</span>
-								</div>
+                                
+                                <div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/PythonLogo.png" alt="Логотип Python">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/Decrypt/">Decrypt</a>
+                                            <span lang="ru">- исследование возможности определения шифра простой замены по шифр-тексту с помощью многоклассового классификатора.</span>
+                                            <span lang="en">- my research about the possibility to distinguish different substitution ciphers based on cipher-text using multi-class classifier.</span>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
 
-								<div class="project">
-									<a href="https://georgyfirsov.github.io/NtDll/">NtDll</a>
-									<span lang="ru">- обертка над библиотекой ntdll.dll в Windows, предоставляет удобный интерфейс к функциям динамической библиотеки.</span>
-									<span lang="en">- wrapper over the ntdll.dll library in Windows OS, it provides nice interface for dynamic library functions.</span>
+                            <!-- Third column -->
+							<div class="col">
+                                <div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/RustLogo.png" alt="Логотип Rust">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/md_to_pdf/">md_to_pdf</a>
+                                            <span lang="ru">- простая консольная утилита для конвертации Markdown-файла в красивый PDF-файл. Написана на языке программирования Rust.</span>
+                                            <span lang="en">- simple utility to convert from markdown format into pretty PDF document. It is written in Rust programming language.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/CppLogo.png" alt="Логотип C++">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/PatternMatching/">PatternMatching</a>
+                                            <span lang="ru"> - библиотека, реализующая механизм сопоставления с образцом для выбора подходящего функционального объекта на этапе компиляции по типам и количеству аргументов. Данная библиотека совместима со стандартом C++14.</span>
+                                            <span lang="en"> - library that implements pattern matching for choosing the right functional object at compile time based on types and number of its arguments. This library is C++14 compatible and does not use any of newer standards features.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/CppLogo.png" alt="Логотип C++">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/NtDll/">NtDll</a>
+                                            <span lang="ru">- обертка над библиотекой ntdll.dll в Windows, которая предоставляет удобный интерфейс к функциям динамической библиотеки. Обертка сама заботится об обработке ошибок и нахождении адреса функции внутри динамической библиотеки. Данный проект находится в затяжной разработке.</span>
+                                            <span lang="en">- wrapper over the ntdll.dll library in Windows OS, which provides a nice interface for the dynamic library functions. The wrapper cares about error handling and searching for addresses of functions inside of DLL. This project is at the development stage.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+								<div class="project mdl-card-wide-with-margin mdl-shadow--4dp">
+                                    <div class="small-row">
+                                        <div class="small-col-logo">
+                                            <img src="./img/PythonLogo.png" alt="Логотип Python">
+                                        </div>
+                                        <div class="small-col-content">
+                                            <a href="https://github.com/GeorgyFirsov/MachineLearningModels/">MachineLearningModels</a>
+                                            <span lang="ru">- реализация некоторых алгоритмов машинного обучения на Python. На данный момент реализованы линейная регрессия, полиномиальная регрессия, а также обобщенные линейная и полиномеальная регрессии.</span>
+                                            <span lang="en">- implementation of several machine learning algotithms written in Python. Linear and polynomial regression has been implemented alongside with generic linear and polynomial regression.</span>
+                                        </div>
+                                    </div>
 								</div>
 							</div>
 						</div>
@@ -246,7 +328,7 @@
 
 					<!-- Brief information -->
 					<div class="brief">
-						<br><img src="./img/Avatar.jpg" class="avatar" />
+						<br><img src="./img/Avatar.jpg" class="avatar center" />
 						<h3 class="subheader-text" lang="ru">Фирсов Георгий</h3>
 						<h3 class="subheader-text" lang="en">Firsov Georgy</h3>
 
