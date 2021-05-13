@@ -4,9 +4,9 @@
 let supported_languages = ['ru', 'en'];
 
 //
-// Default language - Russian
+// Default language - English
 //
-let default_language = 'ru';
+let default_language = 'en';
 
 //
 // Apply default language
