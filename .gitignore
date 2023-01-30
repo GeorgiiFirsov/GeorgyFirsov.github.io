@@ -1,0 +1,4 @@
+# Hidden items
+.*
+!/.github
+!/.gitignore
