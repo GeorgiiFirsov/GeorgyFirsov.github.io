@@ -1,30 +1,187 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Georgy Firsov</title>
-        
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145860793-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            
-            gtag('config', 'UA-145860793-1');
-        </script>
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Personal developer blog. Mostly for notes, thoughts, etc.">
-        <meta name="author" content="Georgy Firsov">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <link rel="canonical" href="http://georgyfirsov.github.io/index.html" />
-        <link rel="alternate" href="http://georgyfirsov.github.io/index.html" hreflang="ru" />
-        
-    </head>
-    <body>
-        
-        <!-- TODO -->
-        
-    </body>
+<head>
+    <title>Georgy Firsov</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145860793-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-145860793-1');
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Personal developer blog. Mostly for notes, thoughts, etc.">
+    <meta name="author" content="Georgy Firsov">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="canonical" href="http://georgyfirsov.github.io/index.html" />
+    <link rel="alternate" href="http://georgyfirsov.github.io/index.html" hreflang="ru" />
+
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link rel="stylesheet" href="./styles/parallax.css" />
+    <link rel="stylesheet" href="./styles/material.css" />
+    <link rel="stylesheet" href="./styles/fonts.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .cover {
+            background-image: url('../images/front-page.jpg');
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .front-about {
+            position: absolute;
+            z-index: 100;
+            bottom: auto;
+            width: 100%;
+            top: 10em;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .scroll-mark-area {
+            position: absolute;
+            z-index: 100;
+            top: auto;
+            width: 100%;
+
+            color: white;
+            bottom: 2em;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Segoe UI Light', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: lighter;
+        }
+
+        .cover-copyright {
+            color: #777777;
+            position: absolute;
+            bottom: 1em;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 1em;
+            text-align: right;
+            font-family: 'Segoe UI Light', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: lighter;
+        }
+
+        .cover a:link,
+        a:visited {
+            color: #777777;
+        }
+
+        .column {
+            float: left;
+            width: 50%;
+            height: 100%;
+        }
+
+        .gray {
+            background-color: #eeeeee;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .content-wrapper-wide-padding {
+            padding: 5em;
+        }
+
+        .footer-ext {
+            background-color: white;
+        }
+
+        .page-intro {
+            background-color: white;
+        }
+    </style>
+
+</head>
+
+<body id="body">
+    <div class="parallax">
+        <div class="parallax-group parallax-group-main">
+            <div class="parallax-layer parallax-layer--back cover">
+                <div class="cover-copyright oxygen-light">
+                    Photo by <a
+                        href="https://unsplash.com/@virussinside?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Artiom
+                        Vallat</a> on <a
+                        href="https://unsplash.com/photos/B9TxTH_eXXM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+                </div>
+            </div>
+            <div class="front-about parallax-layer parallax-layer--base">
+                <h1 class="oxygen-bold">TITLE PLACEHOLDER</h1>
+                <p class="oxygen">Just a placeholder for now<br>A bit longer placeholder, that the previous one</p>
+            </div>
+            <div class="scroll-mark-area parallax-layer parallax-layer--base">
+                <p class="oxygen-light">SCROLL</p>
+                <span class="material-symbols-outlined" style="transform: scale(2.5);">expand_more</span>
+            </div>
+        </div>
+
+        <div class="parallax-group parallax-group-tiny page-intro">
+            <div class="parallax-layer parallax-layer--base content-wrapper-wide-padding oxygen">
+                There is some text
+            </div>
+        </div>
+
+        <div class="parallax-group">
+            <div class="row parallax-layer parallax-layer--base">
+                <div class="column" style="background-color:#4281A4;">
+                    <h2>Column 1</h2>
+                    <p>Some text..</p>
+                </div>
+                <div class="column gray">
+                    <h2>Column 2</h2>
+                    <p>Some text..</p>
+                </div>
+            </div>
+        </div>
+        <div class="parallax-group">
+            <div class="row parallax-layer parallax-layer--base">
+                <div class="column" style="background-color:#4281A4;">
+                    <h2>Column 1</h2>
+                    <p>Some text..</p>
+                </div>
+                <div class="column gray">
+                    <h2>Column 2</h2>
+                    <p>Some text..</p>
+                </div>
+            </div>
+        </div>
+        <div class="parallax-group parallax-group-extra-tiny footer-ext">
+            <div class="parallax-layer parallax-layer--base">
+                Footer text
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
