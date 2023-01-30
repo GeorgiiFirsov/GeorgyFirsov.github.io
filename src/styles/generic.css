@@ -43,6 +43,10 @@ body {
     bottom: 2rem;
 }
 
+.footer-copyright {
+    text-align: center;
+}
+
 .content-wrapper-wide-padding {
     padding: 5rem;
 }
@@ -51,9 +55,19 @@ body {
     padding: 2rem;
 }
 
+.content-wrapper-small-padding {
+    padding: 1rem;
+}
+
 .column-half {
     float: left;
     width: 50%;
+    height: 100%;
+}
+
+.column-quarter {
+    float: left;
+    width: 25%;
     height: 100%;
 }
 
