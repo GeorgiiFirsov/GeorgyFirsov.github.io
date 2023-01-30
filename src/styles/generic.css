@@ -47,6 +47,10 @@ body {
     text-align: center;
 }
 
+.footer-ext a:link, a:visited {
+    text-decoration: none;
+}
+
 .content-wrapper-wide-padding {
     padding: 5rem;
 }
@@ -59,15 +63,19 @@ body {
     padding: 1rem;
 }
 
+.centered {
+    text-align: center;
+}
+
 .column-half {
     float: left;
     width: 50%;
     height: 100%;
 }
 
-.column-quarter {
+.column-one-fifth {
     float: left;
-    width: 25%;
+    width: 20%;
     height: 100%;
 }
 
