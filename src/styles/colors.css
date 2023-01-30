@@ -27,3 +27,7 @@ a:visited {
 .background-dark-gray {
     background-color: #303030;
 }
+
+.background-black-semi-transparent {
+    background-color: rgba(0, 0, 0, 0.6);
+}
