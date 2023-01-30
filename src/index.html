@@ -22,162 +22,118 @@
     <link rel="canonical" href="http://georgyfirsov.github.io/index.html" />
     <link rel="alternate" href="http://georgyfirsov.github.io/index.html" hreflang="ru" />
 
-
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
     <link rel="stylesheet" href="./styles/parallax.css" />
     <link rel="stylesheet" href="./styles/material.css" />
+    <link rel="stylesheet" href="./styles/generic.css" />
+    <link rel="stylesheet" href="./styles/colors.css" />
     <link rel="stylesheet" href="./styles/fonts.css" />
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        .cover {
-            background-image: url('../images/front-page.jpg');
-            height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
-        .front-about {
-            position: absolute;
-            z-index: 100;
-            bottom: auto;
-            width: 100%;
-            top: 10em;
-            margin-left: auto;
-            margin-right: auto;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .scroll-mark-area {
-            position: absolute;
-            z-index: 100;
-            top: auto;
-            width: 100%;
-
-            color: white;
-            bottom: 2em;
-            margin-left: auto;
-            margin-right: auto;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-family: 'Segoe UI Light', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: lighter;
-        }
-
-        .cover-copyright {
-            color: #777777;
-            position: absolute;
-            bottom: 1em;
-            margin-left: auto;
-            margin-right: auto;
-            left: 0;
-            right: 1em;
-            text-align: right;
-            font-family: 'Segoe UI Light', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: lighter;
-        }
-
-        .cover a:link,
-        a:visited {
-            color: #777777;
-        }
-
-        .column {
-            float: left;
-            width: 50%;
-            height: 100%;
-        }
-
-        .gray {
-            background-color: #eeeeee;
-        }
-
-        /* Clear floats after the columns */
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        .content-wrapper-wide-padding {
-            padding: 5em;
-        }
-
-        .footer-ext {
-            background-color: white;
-        }
-
-        .page-intro {
-            background-color: white;
-        }
-    </style>
-
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <body id="body">
     <div class="parallax">
-        <div class="parallax-group parallax-group-main">
-            <div class="parallax-layer parallax-layer--back cover">
-                <div class="cover-copyright oxygen-light">
+        <div class="parallax-group 
+                    parallax-group-main">
+
+            <div class="parallax-layer 
+                        parallax-layer--back 
+                        cover">
+
+                <div class="cover-copyright 
+                            color-gray 
+                            oxygen-light">
+
                     Photo by <a
                         href="https://unsplash.com/@virussinside?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Artiom
                         Vallat</a> on <a
                         href="https://unsplash.com/photos/B9TxTH_eXXM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
                 </div>
             </div>
-            <div class="front-about parallax-layer parallax-layer--base">
+
+            <!-- Title section -->
+            <div class="parallax-layer 
+                        parallax-layer--base
+                        front-about 
+                        absolute-position-centered">
+
                 <h1 class="oxygen-bold">TITLE PLACEHOLDER</h1>
                 <p class="oxygen">Just a placeholder for now<br>A bit longer placeholder, that the previous one</p>
             </div>
-            <div class="scroll-mark-area parallax-layer parallax-layer--base">
+
+            <!-- Scroll arrow section -->
+            <div class="parallax-layer 
+                        parallax-layer--base
+                        scroll-mark-area 
+                        absolute-position-centered 
+                        color-white">
+
                 <p class="oxygen-light">SCROLL</p>
-                <span class="material-symbols-outlined" style="transform: scale(2.5);">expand_more</span>
+                <i class="material-symbols-outlined" style="transform: scale(2.5);">
+                    expand_more</i>
             </div>
         </div>
 
-        <div class="parallax-group parallax-group-tiny page-intro">
-            <div class="parallax-layer parallax-layer--base content-wrapper-wide-padding oxygen">
+        <div class="parallax-group 
+                    parallax-group-tiny
+                    background-white">
+
+            <div class="parallax-layer 
+                        parallax-layer--base 
+                        content-wrapper-wide-padding 
+                        oxygen">
                 There is some text
             </div>
         </div>
 
         <div class="parallax-group">
-            <div class="row parallax-layer parallax-layer--base">
-                <div class="column" style="background-color:#4281A4;">
-                    <h2>Column 1</h2>
-                    <p>Some text..</p>
+            <div class="parallax-layer 
+                        parallax-layer--base
+                        row">
+
+                <div class="column-half" style="background-color:#4281A4;">
+                    <div class="content-wrapper-medium-padding">
+                        <h2>Column 1</h2>
+                        <p>Some text..</p>
+                    </div>
                 </div>
-                <div class="column gray">
+
+                <div class="column-half
+                            background-light-gray">
+
                     <h2>Column 2</h2>
                     <p>Some text..</p>
                 </div>
             </div>
         </div>
+
         <div class="parallax-group">
-            <div class="row parallax-layer parallax-layer--base">
-                <div class="column" style="background-color:#4281A4;">
+            <div class="parallax-layer 
+                        parallax-layer--base
+                        row">
+
+                <div class="column-half" style="background-color:#4281A4;">
                     <h2>Column 1</h2>
                     <p>Some text..</p>
                 </div>
-                <div class="column gray">
+
+                <div class="column-half 
+                            background-light-gray">
+
                     <h2>Column 2</h2>
                     <p>Some text..</p>
                 </div>
             </div>
         </div>
-        <div class="parallax-group parallax-group-extra-tiny footer-ext">
-            <div class="parallax-layer parallax-layer--base">
+
+        <!-- Footer is actually here -->
+        <div class="parallax-group 
+                    parallax-group-extra-tiny
+                    background-white">
+
+            <div class="parallax-layer 
+                        parallax-layer--base">
+
                 Footer text
             </div>
         </div>

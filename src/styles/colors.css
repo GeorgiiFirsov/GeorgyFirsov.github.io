@@ -1,0 +1,25 @@
+.color-white {
+    color: #ffffff;
+}
+
+.color-white a:link,
+a:visited {
+    color: #ffffff;
+}
+
+.color-gray {
+    color: #777777;
+}
+
+.color-gray a:link,
+a:visited {
+    color: #777777;
+}
+
+.background-white {
+    background-color: #ffffff;
+}
+
+.background-light-gray {
+    background-color: #eeeeee;
+}

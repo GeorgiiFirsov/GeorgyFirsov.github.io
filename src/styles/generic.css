@@ -1,0 +1,64 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.cover {
+    background-image: url('../../images/front-page.jpg');
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.cover-copyright {
+    position: absolute;
+    bottom: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 1em;
+    text-align: right;
+}
+
+.absolute-position-centered {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.front-about {
+    bottom: auto;
+    top: 10rem;
+    font-size: 130%;
+}
+
+.scroll-mark-area {
+    top: auto;
+    bottom: 2rem;
+}
+
+.content-wrapper-wide-padding {
+    padding: 5rem;
+}
+
+.content-wrapper-medium-padding {
+    padding: 2rem;
+}
+
+.column-half {
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
