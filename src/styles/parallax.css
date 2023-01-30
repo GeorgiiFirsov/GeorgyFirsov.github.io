@@ -43,13 +43,13 @@
     z-index: 1;
 }
 
-.parallax-layer--base {
+.parallax-layer-base {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
     z-index: 4;
 }
 
-.parallax-layer--back {
+.parallax-layer-back {
     -webkit-transform: translateZ(-300px) scale(2);
     transform: translateZ(-300px) scale(2);
     z-index: 3;
